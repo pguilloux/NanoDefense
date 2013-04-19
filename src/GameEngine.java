@@ -133,7 +133,7 @@ class GameEngine extends JFrame implements ActionListener
 			}
 			for(int k=0; k<zones.size(); k++)
 				zones.get(k).set();
-			revalidate();
+			repaint();
 
 
 
