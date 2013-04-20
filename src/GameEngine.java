@@ -20,20 +20,19 @@ class GameEngine extends JFrame implements ActionListener
 
 	
 	 
-	  public GameEngine()
-	  {
-		  
-        zones=new ArrayList<Zone>();
-        agents=new ArrayList<Agent>();
-        pan=new JPanel();
-	    this.setTitle("Animation");
-	    this.setSize(800, 800);
-	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setLocationRelativeTo(null);
-	    this.setContentPane(buildContentPane());
-	    this.setVisible(true);
-	    go();
-	  }
+	 public GameEngine()
+	 {  
+		zones=new ArrayList<Zone>();
+		agents=new ArrayList<Agent>();
+		pan=new JPanel();
+		this.setTitle("Animation");
+		this.setSize(800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.setContentPane(buildContentPane());
+		this.setVisible(true);
+		go();
+	}
 	 
 	  private void go()
 	  {
