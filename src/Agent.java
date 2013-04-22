@@ -3,7 +3,7 @@ public class Agent extends JButton{
 	/*****VARIABLES*****/
 	private float x;
 	private float y;
-	private int nb_agents;//pour les groupes (puisque les agents se déplacent rarement seuls)
+	private int nb_agents;//pour les groupes (puisque les agents se déplacent seuls)
 	private int proprio;
 	private Zone zone_start;
 	private Zone zone_stop;
