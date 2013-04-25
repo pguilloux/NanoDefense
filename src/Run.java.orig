@@ -2,7 +2,11 @@ public class Run
 {	
 	public static void main(String[] args)
 	{
+<<<<<<< HEAD
 				Dispatcher game = new Dispatcher();
+=======
+				GameEngine game = new GameEngine();
 				//commentaire pour tester le pull git chez jojo
+>>>>>>> c025993f4a1872136ee391fde8b0350da56a36b2
 	}
 }
