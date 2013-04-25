@@ -18,6 +18,10 @@ public class Agent extends JButton{
 	{ 
 		return this.y; 
 	}
+	public boolean getMove()
+	{ 
+		return this.move; 
+	}
 	
 	/******CONSTRUCTOR*******/
 	public Agent(int nb_agents, int proprio, Zone zone_start, Zone zone_stop)
@@ -44,12 +48,6 @@ public class Agent extends JButton{
 				
 				zone_stop.setNbAgents(nb_agents);
 				move=false;
-				try {
-					finalize();
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			else
 			{
