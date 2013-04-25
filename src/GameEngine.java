@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class GameEngine extends JFrame 
+class GameEngine extends JFrame implements Runnable
 {
 	/*****VARIABLES*******/
 	//ArrayList<Player> players;//contenant également les IA
@@ -32,7 +32,7 @@ class GameEngine extends JFrame
 	    this.setLocationRelativeTo(null);
 	    //this.setContentPane(buildContentPane());
 	    this.setVisible(true);
-	    go();
+	    //go();
 	  }
 	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, JPanel pan)
 	  {
@@ -46,7 +46,7 @@ class GameEngine extends JFrame
 	    this.setLocationRelativeTo(null);
 	    this.setContentPane(pan);
 	    this.setVisible(true);
-	    go();
+	    //go();
 	  }
 	  public void set(ArrayList<Zone> zones, ArrayList<Agent> agents, JPanel pan)
 	  {
@@ -58,7 +58,7 @@ class GameEngine extends JFrame
 
 	  }
 	 
-	  private void go()
+	  public void run()
 	  {
 	    for(;;){
 	    	for(int k=0; k<zones.size(); k++)

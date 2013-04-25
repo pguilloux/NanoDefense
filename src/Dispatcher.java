@@ -20,7 +20,8 @@ class Dispatcher implements ActionListener
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
     	this.pan=buildContentPane();
-    	engine=new GameEngine(zones,agents,pan);   
+    	Thread t = new Thread(new GameEngine(zones,agents,pan));
+		t.start(); 
     	
     }
 	void event()//on récupère tout les évènements du jeu, si un joueur se déplace, si une tour est en train de tirer et sur qui, etc...
