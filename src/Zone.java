@@ -11,6 +11,7 @@ public class Zone extends JButton{
 	private int proprio; //(0 si neutre)
 	private int nb_agents;
 	private boolean active;
+	private boolean[] mod;
 	//ArrayList<Tower> tours;
 	
 	/******CONSTRUCTORS*****/
@@ -19,8 +20,10 @@ public class Zone extends JButton{
 		this.x=x;
 		this.y=y;
 		this.taille=taille;
+		this.progress=1000/taille;
 		this.proprio=proprio;	
 		this.nb_agents=nb_agents;
+		mod=new boolean[4];
 	}
 	public Zone(float x, float y, int taille)//zone neutre
 	{
@@ -29,6 +32,8 @@ public class Zone extends JButton{
 		this.taille=taille;
 		this.proprio=0;	
 		this.nb_agents=-taille;
+		this.progress=1000/taille;
+		mod=new boolean[4];
 	}
 	
 	/********GET&SET*********/

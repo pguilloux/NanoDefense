@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 class Dispatcher implements ActionListener
 {
+	/*****VARIABLES******/
 	//ArrayList<Player> players;//contenant également les IA
 	ArrayList<Zone> zones;//toutes les zones de la map
 	//ArrayList<Tower> towers;
@@ -14,6 +15,7 @@ class Dispatcher implements ActionListener
 	GameEngine engine;
 	private JPanel pan;
 
+	/*****CONSTRUCTOR******/
     public Dispatcher()
     {
     	pan=new JPanel();
@@ -24,17 +26,10 @@ class Dispatcher implements ActionListener
 		t.start(); 
     	
     }
-	void event()//on récupère tout les évènements du jeu, si un joueur se déplace, si une tour est en train de tirer et sur qui, etc...
-	{
-		
-	}
-	void game()//on envoie ensuite toutes ces données au GameEngine qui fait tourner le jeu
-	{
-		
-	}
-	
-	private JPanel buildContentPane(){
-		
+
+	/*******FUNCTIONS******/
+	private JPanel buildContentPane()
+	{	
 		//panel.setLayout(new FlowLayout());
 
 		zones.add(new Zone(20,400,80));
@@ -54,10 +49,7 @@ class Dispatcher implements ActionListener
 			zones.get(i).setBackground(Color.WHITE);
 			
 			pan.add(zones.get(i));
-		}
-		
-		
-		
+		}		
 		return pan;
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -101,13 +93,7 @@ class Dispatcher implements ActionListener
 						}
 					}
 				}
-			}
-			
-			
+			}			
 		}
-
-
-
-	}
-	
+	}	
 }

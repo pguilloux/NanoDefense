@@ -48,6 +48,7 @@ class GameEngine extends JFrame implements Runnable
 	    this.setVisible(true);
 	    //go();
 	  }
+	  /******FUNCTIONS******/
 	  public void set(ArrayList<Zone> zones, ArrayList<Agent> agents, JPanel pan)
 	  {
 		  
