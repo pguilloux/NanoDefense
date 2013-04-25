@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -6,13 +7,14 @@ public class Zone extends JButton{
 	/*******VARIABLES********/
 	private float x; 
 	private float y;
-	private int taille; 
+	private int taille;
+	private int nb_max_agents;
 	private int progress;
 	private int proprio; //(0 si neutre)
 	private int nb_agents;
 	private boolean active;
 	private boolean[] mod;
-	//ArrayList<Tower> tours;
+	private ArrayList<Tower> tours;
 	
 	/******CONSTRUCTORS*****/
 	public Zone(float x, float y, int taille, int proprio, int nb_agents)//zone occupée
@@ -21,6 +23,7 @@ public class Zone extends JButton{
 		this.y=y;
 		this.taille=taille;
 		this.progress=1000/taille;
+		this.nb_max_agents=2*taille;
 		this.proprio=proprio;	
 		this.nb_agents=nb_agents;
 		mod=new boolean[4];
@@ -32,6 +35,7 @@ public class Zone extends JButton{
 		this.taille=taille;
 		this.proprio=0;	
 		this.nb_agents=-taille;
+		this.nb_max_agents=2*taille;
 		this.progress=1000/taille;
 		mod=new boolean[4];
 	}
@@ -87,14 +91,35 @@ public class Zone extends JButton{
 	}
 	
 	/********FUNCTIONS********/
-
+    public void setColor()
+    {
+    	if(getActive())
+    		this.setBackground(Color.BLACK);
+    	else
+    	switch(this.getProprio())
+    	{
+    		
+    		case 1:
+    			this.setBackground(Color.RED);
+    		break;
+    	
+    		case 2:
+    			this.setBackground(Color.BLUE);
+    		break;
+    		
+    		default:
+    			this.setBackground(Color.WHITE);
+    		break;
+    	}
+    }
+    
 	public void place()
 	{		
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
 	}
 	public void set()
 	{
-		if(getNbAgents()>0)
+		if(getNbAgents()>0 && getNbAgents()<nb_max_agents)
 		{
 			setProgress(getTaille()/10);
 			if(getProgress()>=100)
@@ -103,6 +128,7 @@ public class Zone extends JButton{
 				resetProgress();				
 			}
 		}
+		this.setColor();
 		this.setText(String.valueOf(nb_agents));
 	}
 

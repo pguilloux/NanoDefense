@@ -11,7 +11,7 @@ class GameEngine extends JFrame implements Runnable
 	/*****VARIABLES*******/
 	//ArrayList<Player> players;//contenant également les IA
 	private ArrayList<Zone> zones;//toutes les zones de la map
-	//ArrayList<Tower> towers;
+	ArrayList<Tower> towers;
 	private ArrayList<Agent> agents;
 	private JPanel pan;
 	
@@ -66,6 +66,7 @@ class GameEngine extends JFrame implements Runnable
 	    	if(!agents.isEmpty())
 				for(int i=0; i<agents.size(); i++)
 				{
+					pan.remove(agents.get(i));
 					//agents.get(i).setText(String.valueOf(nb_agents));
 					if(!agents.get(i).getMove())
 						agents.remove(agents.get(i));
@@ -77,11 +78,9 @@ class GameEngine extends JFrame implements Runnable
 						pan.add(agents.get(i));
 					}
 				}
-	    	for(int k=0; k<zones.size(); k++)
-				zones.get(k).set();
 	    	repaint();
 	      try {
-	        Thread.sleep(10);
+	        Thread.sleep(25);
 	      } catch (InterruptedException e) {
 	        e.printStackTrace();
 	      }

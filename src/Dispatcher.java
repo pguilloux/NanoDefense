@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 class Dispatcher implements ActionListener
 {
 	/*****VARIABLES******/
-	//ArrayList<Player> players;//contenant également les IA
+	ArrayList<Player> players;//contenant également les IA
 	ArrayList<Zone> zones;//toutes les zones de la map
-	//ArrayList<Tower> towers;
+	ArrayList<Tower> towers;
 	ArrayList<Agent> agents;
 	GameEngine engine;
 	private JPanel pan;
@@ -28,6 +28,7 @@ class Dispatcher implements ActionListener
     }
 
 	/*******FUNCTIONS******/
+
 	private JPanel buildContentPane()
 	{	
 		//panel.setLayout(new FlowLayout());
@@ -35,6 +36,7 @@ class Dispatcher implements ActionListener
 		zones.add(new Zone(20,400,80));
 		zones.add(new Zone(600,400,150,1,100));
 		zones.add(new Zone(400,200,100,1,100));
+		zones.add(new Zone(300,100,70,2,20));
 		
 		pan.setLayout(null);
 		
@@ -46,7 +48,9 @@ class Dispatcher implements ActionListener
 	
 			zones.get(i).set();
 			
-			zones.get(i).setBackground(Color.WHITE);
+			zones.get(i).setColor();
+			
+			//zones.get(i).setBackground(Color.WHITE);
 			
 			pan.add(zones.get(i));
 		}		
@@ -59,39 +63,54 @@ class Dispatcher implements ActionListener
 		{
 			if(source == zones.get(i))
 			{
-				//System.out.println("Vous avez cliqué en 1.");
 				if(zones.get(i).getActive())
 				{
 					zones.get(i).setActive(false);
-					zones.get(i).setBackground(Color.WHITE);
-					//System.out.println("zone1 desactive");
+					//zones.get(i).setBackground(Color.WHITE);
 				}
 				else 
 				{	
+					int zap=0;//zones actives en possession
+					int zae=0;//zones actives ennemies
 					for(int j=0; j<zones.size(); j++)
 					{
 						if(j!=i)
 						{
 							if(zones.get(j).getActive())
 							{
-								//System.out.println("zone2 active");
-								if(zones.get(j).getNbAgents()>1)
+								if(zones.get(i).getProprio()!=zones.get(j).getProprio())
 								{	
-									agents.add(new Agent(1,zones.get(i).getProprio(),zones.get(j),zones.get(i)));
-									//zones.get(i).setNbAgents(1);
-									//zones.get(j).setNbAgents(-1);
+									zae++;
 								}
-							}
-							else
-							{
-								if(zones.get(i).getNbAgents()>0)
+								else if(zones.get(i).getProprio()==zones.get(j).getProprio())
+								{
+									zap++;
+								}
+								if(zones.get(j).getNbAgents()>1 && zones.get(i).getProprio()!=zones.get(j).getProprio())
+								{	
+									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i)));
+								}
+								/*if(zones.get(i).getNbAgents()>0 && zones.get(i).getProprio()==zones.get(j).getProprio())
 								{
 									zones.get(i).setActive(true);
-									zones.get(i).setBackground(Color.BLACK);
-								}
+									//zones.get(i).setBackground(Color.BLACK);
+								}*/
 							}
+							/*else
+							{
+								if(zones.get(i).getProprio()!=0 && )
+								{
+									zones.get(i).setActive(true);
+									//zones.get(i).setBackground(Color.BLACK);
+								}
+							}*/
 						}
 					}
+					if(zap>=0 && zae==0 && zones.get(i).getProprio()!=0)
+					{
+						zones.get(i).setActive(true);
+					}
+
 				}
 			}			
 		}

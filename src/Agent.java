@@ -3,11 +3,11 @@ public class Agent extends JButton{
 	/*****VARIABLES*****/
 	private float x;
 	private float y;
-	private int nb_agents;//pour les groupes (puisque les agents se déplacent seuls)
 	private int proprio;
 	private Zone zone_start;
 	private Zone zone_stop;
 	private boolean move;
+	private int speed;
 	
 	/*****GET&SET******/
 	public float getx()
@@ -22,19 +22,24 @@ public class Agent extends JButton{
 	{ 
 		return this.move; 
 	}
+	public int getProprio()
+	{ 
+		return this.proprio; 
+	}
 	
 	/******CONSTRUCTOR*******/
-	public Agent(int nb_agents, int proprio, Zone zone_start, Zone zone_stop)
+	public Agent(int proprio, Zone zone_start, Zone zone_stop)
 	{
-		zone_start.setNbAgents(-nb_agents);
+		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		
 		this.zone_stop=zone_stop;
 		this.x=zone_start.getx();
 		this.y=zone_start.gety();
-		this.nb_agents=nb_agents;
 		this.proprio=proprio;
 		this.move=true;
+		this.speed=5;
 	}
+	/********FUNCTIONS*******/
 	public void move()
 	{
 		if(move)
@@ -44,9 +49,24 @@ public class Agent extends JButton{
 			float absx=(dx<0)?-dx:dx;
 			float absy=(dy<0)?-dy:dy;
 			if(absx<1 && absy<=1)
-			{
-				
-				zone_stop.setNbAgents(nb_agents);
+			{		
+				if(zone_stop.getProprio()==this.getProprio())
+				{
+					zone_stop.setNbAgents(1);
+				}
+				else if(zone_stop.getProprio()==0)
+				{
+					zone_stop.setNbAgents(1);
+					if(zone_stop.getNbAgents()>0)
+						zone_stop.setProprio(this.proprio);
+				}
+				else if(zone_stop.getProprio()!=this.getProprio())
+				{
+					zone_stop.setNbAgents(-1);
+					if(zone_stop.getNbAgents()==0)
+						zone_stop.setProprio(0);
+					
+				}
 				move=false;
 			}
 			else
@@ -56,8 +76,8 @@ public class Agent extends JButton{
 				float vx=dx/(absx+absy);
 				float vy=dy/(absx+absy);
 				
-				this.x+=vx;
-				this.y+=vy;
+				this.x+=vx*speed;
+				this.y+=vy*speed;
 			}
 					
 			this.setBounds((int)this.getx(),(int)this.gety(), 10, 10);	
