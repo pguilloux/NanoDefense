@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 import javax.swing.JButton;
 public class Agent extends JButton{
 	/*****VARIABLES*****/
@@ -40,6 +42,24 @@ public class Agent extends JButton{
 		this.speed=5;
 	}
 	/********FUNCTIONS*******/
+	 public void setColor()
+    {
+    	switch(this.getProprio())
+    	{
+    		
+    		case 1:
+    			this.setBackground(Color.RED);
+    		break;
+    	
+    		case 2:
+    			this.setBackground(Color.BLUE);
+    		break;
+    		
+    		default:
+    			this.setBackground(Color.WHITE);
+    		break;
+    	}
+    }
 	public void move()
 	{
 		if(move)
@@ -81,6 +101,7 @@ public class Agent extends JButton{
 			}
 					
 			this.setBounds((int)this.getx(),(int)this.gety(), 10, 10);	
+			this.setColor();
 		}
 		
 		//void active(Tower tower);

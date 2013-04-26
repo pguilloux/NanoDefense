@@ -1,6 +1,5 @@
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -13,7 +12,9 @@ class GameEngine extends JFrame implements Runnable
 	private ArrayList<Zone> zones;//toutes les zones de la map
 	ArrayList<Tower> towers;
 	private ArrayList<Agent> agents;
-	private JPanel pan;
+	private DrawPanel pan;
+	private Map map;
+	
 	
 
 	
@@ -33,12 +34,14 @@ class GameEngine extends JFrame implements Runnable
 		this.setVisible(true);
 	    //go();
 	}
-	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, JPanel pan)
+	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, DrawPanel pan, Map map)
 	  {
 		  
         this.zones=zones;
         this.agents=agents;
         this.pan=pan;
+        this.map=map;
+
 	    this.setTitle("Animation");
 	    this.setSize(800, 800);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,8 +50,9 @@ class GameEngine extends JFrame implements Runnable
 	    this.setVisible(true);
 	    //go();
 	  }
+	 
 	  /******FUNCTIONS******/
-	  public void set(ArrayList<Zone> zones, ArrayList<Agent> agents, JPanel pan)
+	  public void set(ArrayList<Zone> zones, ArrayList<Agent> agents, DrawPanel pan)
 	  {
 		  
         this.zones=zones;
@@ -86,8 +90,4 @@ class GameEngine extends JFrame implements Runnable
 	      }
 	    }
 	  }  
-	  
-
-
-
 }

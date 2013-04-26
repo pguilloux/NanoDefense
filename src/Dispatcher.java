@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 class Dispatcher implements ActionListener
 {
@@ -13,23 +14,31 @@ class Dispatcher implements ActionListener
 	ArrayList<Tower> towers;
 	ArrayList<Agent> agents;
 	GameEngine engine;
-	private JPanel pan;
+	private DrawPanel pan;
+	private Map map;
 
 	/*****CONSTRUCTOR******/
     public Dispatcher()
     {
-    	pan=new JPanel();
+    	map=new Map(800,800);
+    	towers= new ArrayList<Tower>();
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
+    	pan=new DrawPanel(zones,agents,towers,map);
     	this.pan=buildContentPane();
-    	Thread t = new Thread(new GameEngine(zones,agents,pan));
+    	Thread t = new Thread(new GameEngine(zones,agents,pan, map));
 		t.start(); 
+		/* new Thread(new Runnable() {
+		      public void run() {
+		        SwingUtilities.invokeLater(new GameEngine(zones,agents,pan));
+		      }
+		  }).start();*/
     	
     }
 
 	/*******FUNCTIONS******/
 
-	private JPanel buildContentPane()
+	private DrawPanel buildContentPane()
 	{	
 		//panel.setLayout(new FlowLayout());
 
@@ -42,7 +51,7 @@ class Dispatcher implements ActionListener
 		
 		for(int i=0; i<zones.size(); i++)
 		{
-			zones.get(i).addActionListener(this);
+			zones.get(i).addActionListener(this);			
 			
 			zones.get(i).place();	
 	
@@ -110,7 +119,6 @@ class Dispatcher implements ActionListener
 					{
 						zones.get(i).setActive(true);
 					}
-
 				}
 			}			
 		}
