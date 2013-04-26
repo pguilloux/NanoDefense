@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 
-public class Zone extends JButton{
+public class Zone extends RoundButton{
 	/*******VARIABLES********/
 	private float x; 
 	private float y;

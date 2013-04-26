@@ -25,6 +25,7 @@ class Dispatcher implements ActionListener
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
     	pan=new DrawPanel(zones,agents,towers,map);
+
     	this.pan=buildContentPane();
     	Thread t = new Thread(new GameEngine(zones,agents,pan, map));
 		t.start(); 

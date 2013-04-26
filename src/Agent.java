@@ -1,7 +1,7 @@
 import java.awt.Color;
 
 import javax.swing.JButton;
-public class Agent extends JButton{
+public class Agent extends RoundButton{
 	/*****VARIABLES*****/
 	private float x;
 	private float y;
