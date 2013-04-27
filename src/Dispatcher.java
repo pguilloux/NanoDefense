@@ -20,10 +20,12 @@ class Dispatcher implements ActionListener
 	/*****CONSTRUCTOR******/
     public Dispatcher()
     {
-    	map=new Map(800,800);
+    	
     	towers= new ArrayList<Tower>();
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
+    	map=new Map(zones,towers);
+    	map.build("map.txt");
     	pan=new DrawPanel(zones,agents,towers,map);
 
     	this.pan=buildContentPane();
@@ -43,10 +45,10 @@ class Dispatcher implements ActionListener
 	{	
 		//panel.setLayout(new FlowLayout());
 
-		zones.add(new Zone(20,400,80));
+		/*zones.add(new Zone(20,400,80));
 		zones.add(new Zone(600,400,150,1,100));
 		zones.add(new Zone(400,200,100,1,100));
-		zones.add(new Zone(300,100,70,2,20));
+		zones.add(new Zone(300,100,70,2,20));*/
 		
 		pan.setLayout(null);
 		

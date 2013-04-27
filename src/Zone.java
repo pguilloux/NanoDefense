@@ -53,6 +53,18 @@ public class Zone extends RoundButton{
 	{ 
 		return this.taille; 
 	}
+	public void setx(int x)
+	{ 
+		this.x=x; 
+	}
+	public void sety(int y)
+	{ 
+		this.y=y; 
+	}
+	public void setTaille(int taille)
+	{ 
+		this.taille=taille; 
+	}
 	public int getNbAgents()
 	{ 
 		return this.nb_agents; 
@@ -60,6 +72,10 @@ public class Zone extends RoundButton{
 	public int getProprio()
 	{ 
 		return this.proprio; 
+	}
+	public void nbAgents(int nb)
+	{ 
+		this.nb_agents=nb; 
 	}
 	public void setNbAgents(int nb)
 	{ 

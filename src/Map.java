@@ -1,6 +1,3 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -8,9 +5,8 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import javax.swing.JPanel;
 
 public class Map
 {
@@ -19,7 +15,10 @@ public class Map
 	private int width;
 	private int height;	
 	private int case_cote;
+	private int nb_zones;
 	private int[] table;
+	private ArrayList<Zone>zones;
+	private ArrayList<Tower>towers;
 	
 	/******GET&SET******/
 	
@@ -35,9 +34,9 @@ public class Map
 	{
 		return table[i];
 	}
-	public Map(int width, int height)
+	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
 	{		
-		this.width=width;
+		this.zones=zones;
 		this.height=height;
 		this.case_cote=10;
 		table=new int[width*height];
@@ -76,6 +75,16 @@ public class Map
 			System.out.println(e.toString()); 
 		} 		 
 	}
+	public void build(int width, int height)
+	{		
+		this.width=width;
+		this.height=height;
+		this.case_cote=10;
+		table=new int[width*height];
+		java.util.Random rand = new java.util.Random();
+		for(int j=0;j<height*width;j++)	
+		table[j] = rand.nextInt(2);
+	}
 	public void build(String fichier)
 	{		
 		case_cote=10;
@@ -101,6 +110,20 @@ public class Map
 					table[i+j*width] = Integer.parseInt(val.nextToken());
 				}
 			}	
+			ligne = br.readLine();
+			val = new StringTokenizer(ligne," ");
+			nb_zones = Integer.parseInt(val.nextToken());
+			for(int j=0;j<nb_zones;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				int x = Integer.parseInt(val.nextToken());
+				int y = Integer.parseInt(val.nextToken());
+				int taille = Integer.parseInt(val.nextToken());
+				int proprio = Integer.parseInt(val.nextToken());
+				int nb = Integer.parseInt(val.nextToken());				
+				zones.add(new Zone(x,y,taille,proprio,nb));
+			}
 			br.close(); 
 		} 
 		catch (Exception e) { 
