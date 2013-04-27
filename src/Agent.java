@@ -35,8 +35,8 @@ public class Agent extends RoundButton{
 		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		
 		this.zone_stop=zone_stop;
-		this.x=zone_start.getx();
-		this.y=zone_start.gety();
+		this.x=zone_start.getx()+zone_start.getTaille()/2;
+		this.y=zone_start.gety()+zone_start.getTaille()/2;
 		this.proprio=proprio;
 		this.move=true;
 		this.speed=5;
@@ -64,8 +64,8 @@ public class Agent extends RoundButton{
 	{
 		if(move)
 		{
-			float dx=zone_stop.getx()-this.x;
-			float dy=zone_stop.gety()-this.y;
+			float dx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
+			float dy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;
 			float absx=(dx<0)?-dx:dx;
 			float absy=(dy<0)?-dy:dy;
 			if(absx<1 && absy<=1)

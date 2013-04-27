@@ -20,7 +20,7 @@ class Dispatcher implements ActionListener
 	/*****CONSTRUCTOR******/
     public Dispatcher()
     {
-    	map=new Map(800,800);
+    	map=new Map("map.txt");
     	towers= new ArrayList<Tower>();
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
