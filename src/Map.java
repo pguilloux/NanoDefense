@@ -14,10 +14,14 @@ import javax.swing.JPanel;
 
 public class Map
 {
+	/*****VARIABLES****/
+	
 	private int width;
 	private int height;	
 	private int case_cote;
 	private int[] table;
+	
+	/******GET&SET******/
 	
 	public int getWidth()
 	{
@@ -37,6 +41,9 @@ public class Map
 		this.height=height;
 		this.case_cote=10;
 		table=new int[width*height];
+		java.util.Random rand = new java.util.Random();
+		for(int j=0;j<height*width;j++)	
+		table[j] = rand.nextInt(2);
 	}
 	public Map(String fichier)
 	{		
@@ -48,56 +55,57 @@ public class Map
 			BufferedReader br = new BufferedReader(ipsr); 
 			String ligne;
 			ligne = br.readLine();
-			//System.out.print(ligne);
-			//while ((ligne = br.readLine()) != null) 
-			//{  
-				StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
-		
-				width=Integer.parseInt(val.nextToken()); 
-				height=Integer.parseInt(val.nextToken());
-				//System.out.print(width);
-				//System.out.print(height);
-				table=new int[width*height];
-				for(int j=0;j<height;j++)	
-				{
-					ligne = br.readLine();
-					//System.out.print(ligne);
-					val = new StringTokenizer(ligne," ");
-					for(int i=0;i<width;i++)	
-					{
-						table[i+j*width] = Integer.parseInt(val.nextToken());
-					}
-				}
-			//}
-			//System.out.print(width);
-			//System.out.print(height);
+			
+			StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
 	
+			width=Integer.parseInt(val.nextToken()); 
+			height=Integer.parseInt(val.nextToken());
+			table=new int[width*height];
+			for(int j=0;j<height;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				for(int i=0;i<width;i++)	
+				{
+					table[i+j*width] = Integer.parseInt(val.nextToken());
+				}
+			}	
 			br.close(); 
 		} 
 		catch (Exception e) { 
 			System.out.println(e.toString()); 
-		} 
-		 
+		} 		 
 	}
 	public void build(String fichier)
 	{		
-		try{
-			InputStream ips=new FileInputStream(fichier); 
-			InputStreamReader ipsr=new InputStreamReader(ips);
-			BufferedReader br=new BufferedReader(ipsr);
-			width=br.read();
-			height=br.read();
-			System.out.print(width);
-			System.out.print(height);
+		case_cote=10;
+		try 
+		{ 
+			InputStream ips = new FileInputStream(fichier); // mon fichier texte pour tester 
+			InputStreamReader ipsr = new InputStreamReader(ips); 
+			BufferedReader br = new BufferedReader(ipsr); 
+			String ligne;
+			ligne = br.readLine();
+			
+			StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
+	
+			width=Integer.parseInt(val.nextToken()); 
+			height=Integer.parseInt(val.nextToken());
 			table=new int[width*height];
-			for(int i=0;i<width*height;i++)
-					table[i]=br.read();
-
+			for(int j=0;j<height;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				for(int i=0;i<width;i++)	
+				{
+					table[i+j*width] = Integer.parseInt(val.nextToken());
+				}
+			}	
 			br.close(); 
-		}		
-		catch (Exception e){
-			System.out.println(e.toString());
-		}
+		} 
+		catch (Exception e) { 
+			System.out.println(e.toString()); 
+		} 		
 	}	
 	public void save(String fichier)
 	{
