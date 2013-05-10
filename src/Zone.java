@@ -14,6 +14,7 @@ public class Zone extends RoundButton{
 	private int nb_agents;
 	private boolean active;
 	private boolean[] mod;
+	private int[] pathMap;
 	private ArrayList<Tower> tours;
 	
 	/******CONSTRUCTORS*****/
@@ -28,6 +29,7 @@ public class Zone extends RoundButton{
 		this.nb_agents=nb_agents;
 		mod=new boolean[4];
 	}
+	
 	public Zone(float x, float y, int taille)//zone neutre
 	{
 		this.x=x;
@@ -105,6 +107,12 @@ public class Zone extends RoundButton{
 	{ 
 		return this.progress; 
 	}
+	public int[] getPathMap() {
+		return pathMap;
+	}
+	public void setPathMap(int position, int distance) {
+		this.pathMap[position] = distance;
+	}
 	
 	/********FUNCTIONS********/
     public void setColor()
@@ -133,6 +141,11 @@ public class Zone extends RoundButton{
 	{		
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
 	}
+	
+	public void buildPathMap(int width, int height){
+		pathMap = new int[width*height];
+	}
+	
 	public void set()
 	{
 		if(getNbAgents()>0 && getNbAgents()<nb_max_agents)
