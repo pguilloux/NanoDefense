@@ -1,5 +1,6 @@
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Vector;
 public class Agent extends RoundButton{
 	/*****VARIABLES*****/
 	private float x;
@@ -9,7 +10,8 @@ public class Agent extends RoundButton{
 	private Zone zone_stop;
 	private boolean move;
 	private int speed;
-	private int case_cote;
+	private Map map;
+	private LinkedList<Vector<Integer>> path;
 	
 	/*****GET&SET******/
 	public float getx()
@@ -30,7 +32,7 @@ public class Agent extends RoundButton{
 	}
 	
 	/******CONSTRUCTOR*******/
-	public Agent(int proprio, Zone zone_start, Zone zone_stop)
+	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
 	{
 		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		
@@ -38,8 +40,15 @@ public class Agent extends RoundButton{
 		this.x=zone_start.getx()+zone_start.getTaille()/2;
 		this.y=zone_start.gety()+zone_start.getTaille()/2;
 		this.proprio=proprio;
+		this.map = map;
 		this.move=true;
 		this.speed=5;
+		
+		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
+
+		for(int i = 0; i < path.size(); i++){
+			System.out.print(path.get(i)+" ");
+		}
 	}
 	/********FUNCTIONS*******/
 	 public void setColor()
@@ -70,6 +79,19 @@ public class Agent extends RoundButton{
 	{
 		if(move)
 		{
+			/*float dx, dy;
+			if(this.x != path.getFirst().elementAt(0) && this.y != path.getFirst().elementAt(1)){
+				dx = path.getFirst().elementAt(0)-this.x;
+				dy = path.getFirst().elementAt(1)-this.y;
+				System.out.println("tata");
+				
+			}
+			else{
+				Vector<Integer> vect = path.pollFirst();
+				dx = vect.elementAt(0)-this.x;
+				dy = vect.elementAt(1)-this.y;	
+				System.out.println("toto");
+			}*/
 			float dx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
 			float dy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;
 			float absx=(dx<0)?-dx:dx;

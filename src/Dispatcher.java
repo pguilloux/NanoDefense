@@ -100,7 +100,7 @@ class Dispatcher implements ActionListener
 								}
 								if(zones.get(j).getNbAgents()>1 && zones.get(i).getProprio()!=zones.get(j).getProprio())
 								{	
-									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i)));
+									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i), map));
 								}
 								/*if(zones.get(i).getNbAgents()>0 && zones.get(i).getProprio()==zones.get(j).getProprio())
 								{
