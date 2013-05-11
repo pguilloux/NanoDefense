@@ -126,12 +126,25 @@ public class Map
 				Zone newZone = new Zone(x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
+				
+				/*boucle d'affichage de la map de PathFining dans la console*/
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
-						System.out.print(newZone.getPathMap()[i*width+k]+" ");
+						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+						}
+						if(newZone.getPathMap()[i*width+k] > 99){
+							System.out.print(newZone.getPathMap()[i*width+k]+" ");
+						}
+						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+						}
 					}
 					System.out.println(" ");
 				}
+				System.out.println(" ");
+				
+				
 				zones.add(newZone);
 			}
 			br.close(); 
@@ -142,124 +155,84 @@ public class Map
 	}
 	
 	public void buildZonePathMap(Zone zone){
-		//initialisation de la map chemin de la zone avec des -2 et -1
+		
+		//on utilise une Liste FIFO pour traiter dans l'ordre les différentes cases à remplir avec leur distance à la zone
 		pathTableQueue = new LinkedList<PathCaseValue>();
 		int id = -1;
 		
+		//initialisation de la map de PathFinding de la zone avec des -2 et -1
 		for(int i=0; i<width*height; i++){
 			if(table[i]==1)
 				zone.setPathMap(i, -2);
 			else
 				zone.setPathMap(i, -1);
 		}
-		
+		//on calcule la position de départ c'est-à-dire celle de la base passée en paramètre
 		int posZone = (int)((zone.getx()/case_cote+(zone.getTaille()/case_cote)/2)+width*(zone.gety()/case_cote));
 		
 		//construction de la map chemin de la zone en partant de sa position centrale
 		pathTableQueue.add(new PathCaseValue(id, posZone));
-		SetCaseDistanceToZone(zone, posZone, id);
-		int id2 = 0;
+		
+		/*boucle qui défile la liste et traite toutes les cases autour de la case défliée. Si ces cases remplissent les conditions, 
+		alors on les ajoute à la file et on règle la case de le tableau de la map à -3 pour ne pas la retraiter dans les tours de boucle suivants*/
 		while(pathTableQueue.size() != 0){
-	    	PathCaseValue values = pathTableQueue.pollFirst();
+	    	PathCaseValue values = pathTableQueue.poll();
 	    	
 	    	int pos = values.getPosition();
 	    	id = values.getDistance()+1;
 	    	
+	    	//on assigne la valeur la case de la map de PathFinding avec la distance calculée par rapport à la zone
 	    	zone.setPathMap(pos, id);
-	    	//SetCaseDistanceToZone(zone, values.getPosition(), values.getDistance()+1);
 	    	
          // Haut-Gauche
-    	    if((pos-1-width >= 0) && (pos%width!=0) &&(zone.getPathMap()[pos-1-width] == -1) && (zone.getPathMap()[pos-1-width] != -2)){
+    	    if((pos-1-width >= 0) && (pos%width!=0) &&(zone.getPathMap()[pos-1-width] == -1) && (zone.getPathMap()[pos-1-width] != -3) && (zone.getPathMap()[pos-1-width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos-1-width));
+    	    	zone.setPathMap(pos-1-width, -3);
     	    }
     	    
     	    // Haut
-    	    if((pos-width >= 0) && (zone.getPathMap()[pos-width] == -1) && (zone.getPathMap()[pos-width] != -2)){
+    	    if((pos-width >= 0) && (zone.getPathMap()[pos-width] == -1) && (zone.getPathMap()[pos-width] != -3) && (zone.getPathMap()[pos-width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos-width));
+    	    	zone.setPathMap(pos-width, -3);
     	    }
     	    
     	    // Haut-droite
-    	    if((pos+1-width > 0) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1-width] == -1) && (zone.getPathMap()[pos+1-width] != -2)){
+    	    if((pos+1-width > 0) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1-width] == -1) && (zone.getPathMap()[pos+1-width] != -3) && (zone.getPathMap()[pos+1-width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1-width));
+    	    	zone.setPathMap(pos+1-width, -3);
     	    }
     	    
     	    // Gauche
-    	    if((pos-1 >= 0) && (pos%width!=0) && (zone.getPathMap()[pos-1] == -1) && (zone.getPathMap()[pos-1] != -2)){
+    	    if((pos-1 >= 0) && (pos%width!=0) && (zone.getPathMap()[pos-1] == -1) && (zone.getPathMap()[pos-1] != -3) && (zone.getPathMap()[pos-1] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos-1));
+    	    	zone.setPathMap(pos-1, -3);
     	    }
     	    
     	    // Droite
-    	    if((pos+1 < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1] == -1) && (zone.getPathMap()[pos+1] != -2)){
+    	    if((pos+1 < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1] == -1) && (zone.getPathMap()[pos+1] != -3) && (zone.getPathMap()[pos+1] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1));
+    	    	zone.setPathMap(pos+1, -3);
     	    }
     	    
     	    // Bas-Gauche
-    	    if((pos-1+width < width*height) && (pos%width!=0) && (zone.getPathMap()[pos-1+width] == -1) && (zone.getPathMap()[pos-1+width] != -2)){
+    	    if((pos-1+width < width*height) && (pos%width!=0) && (zone.getPathMap()[pos-1+width] == -1) && (zone.getPathMap()[pos-1+width] != -3) && (zone.getPathMap()[pos-1+width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos-1+width));
+    	    	zone.setPathMap(pos-1+width, -3);
     	    }
     	    
     	    // Bas
-    	    if((pos+width < width*height) && (zone.getPathMap()[pos+width] == -1) && (zone.getPathMap()[pos+width] != -2)){
+    	    if((pos+width < width*height) && (zone.getPathMap()[pos+width] == -1) && (zone.getPathMap()[pos+width] != -3) && (zone.getPathMap()[pos+width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+width));	
+    	    	zone.setPathMap(pos+width, -3);
     	    }
     	    
     	    // Bas-droite
-    	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1+width] == -1) && (zone.getPathMap()[pos+1+width] != -2)){
+    	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1+width] == -1) && (zone.getPathMap()[pos+1+width] != -3) && (zone.getPathMap()[pos+1+width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1+width));
-    	    }
-    	    if(id > id2){
-    	    	System.out.println(id);
-    	    	id2++;
+    	    	zone.setPathMap(pos+1+width, -3);
     	    }
         }
 	}
-		
-	public void SetCaseDistanceToZone(Zone zone, int pos, int id){
-
-		// Haut-Gauche
-	    if((pos-1-width >= 0) && (pos%width!=0) &&(zone.getPathMap()[pos-1-width] == -1) && (zone.getPathMap()[pos-1-width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos-1-width));
-	    }
-	    
-	    // Haut
-	    if((pos-width >= 0) && (zone.getPathMap()[pos-width] == -1) && (zone.getPathMap()[pos-width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos-width));
-	    }
-	    
-	    // Haut-droite
-	    if((pos+1-width > 0) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1-width] == -1) && (zone.getPathMap()[pos+1-width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos+1-width));
-	    }
-	    
-	    // Gauche
-	    if((pos-1 >= 0) && (pos%width!=0) && (zone.getPathMap()[pos-1] == -1) && (zone.getPathMap()[pos-1] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos-1));
-	    }
-	    
-	    // Droite
-	    if((pos+1 < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1] == -1) && (zone.getPathMap()[pos+1] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos+1));
-	    }
-	    
-	    // Bas-Gauche
-	    if((pos-1+width < width*height) && (pos%width!=0) && (zone.getPathMap()[pos-1+width] == -1) && (zone.getPathMap()[pos-1+width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos-1+width));
-	    }
-	    
-	    // Bas
-	    if((pos+width < width*height) && (zone.getPathMap()[pos+width] == -1) && (zone.getPathMap()[pos+width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos+width));	
-	    }
-	    
-	    // Bas-droite
-	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1+width] == -1) && (zone.getPathMap()[pos+1+width] != -2)){
-	    	pathTableQueue.add(new PathCaseValue(id, pos+1+width));
-	    }
-	    
-	    
-	    
-	}
-	
 	
 	public void save(String fichier)
 	{

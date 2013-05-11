@@ -1,6 +1,5 @@
 import java.awt.Color;
-
-import javax.swing.JButton;
+import java.util.ArrayList;
 public class Agent extends RoundButton{
 	/*****VARIABLES*****/
 	private float x;
@@ -10,6 +9,7 @@ public class Agent extends RoundButton{
 	private Zone zone_stop;
 	private boolean move;
 	private int speed;
+	private int case_cote;
 	
 	/*****GET&SET******/
 	public float getx()
@@ -60,6 +60,12 @@ public class Agent extends RoundButton{
     		break;
     	}
     }
+	 
+	/*public int[] calculatePath(){
+	ArrayList<Integer> table = new ArrayList<Integer>();
+		return 
+	}*/
+	 
 	public void move()
 	{
 		if(move)
