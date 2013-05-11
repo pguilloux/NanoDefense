@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Map
 {
@@ -35,6 +36,11 @@ public class Map
 	public int getTable(int i)
 	{
 		return table[i];
+	}
+	
+	public int getNb_zones() 
+	{
+		return nb_zones;
 	}
 	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
 	{		
@@ -126,7 +132,7 @@ public class Map
 				Zone newZone = new Zone(x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
-				
+				if(j == 2){
 				/*boucle d'affichage de la map de PathFining dans la console*/
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
@@ -143,7 +149,7 @@ public class Map
 					System.out.println(" ");
 				}
 				System.out.println(" ");
-				
+				}
 				
 				zones.add(newZone);
 			}
@@ -183,6 +189,9 @@ public class Map
 	    	
 	    	//on assigne la valeur la case de la map de PathFinding avec la distance calculée par rapport à la zone
 	    	zone.setPathMap(pos, id);
+	    	if(id ==0){
+	    		zone.setIndexInPath(pos);
+	    	}
 	    	
          // Haut-Gauche
     	    if((pos-1-width >= 0) && (pos%width!=0) &&(zone.getPathMap()[pos-1-width] == -1) && (zone.getPathMap()[pos-1-width] != -3) && (zone.getPathMap()[pos-1-width] != -2)){
@@ -232,6 +241,93 @@ public class Map
     	    	zone.setPathMap(pos+1+width, -3);
     	    }
         }
+	}
+	
+	public ArrayList<Integer> getPathTableToZone(Zone start, Zone end){
+		
+		ArrayList<Integer> pathTable = new ArrayList<Integer>();
+		
+		int pos = start.getIndexInPath();
+		int currentPos = pos;
+		System.out.println();
+		pathTable.add(pos);
+		
+		int dist = end.getPathMap()[pos];
+
+		while(pos != end.getIndexInPath()){
+
+			// Haut-Gauche
+		    if((pos-1-width >= 0) && (pos%width!=0) && (end.getPathMap()[pos-1-width] < dist) && (end.getPathMap()[pos-1-width] > -1)){
+		    	currentPos = pos-1-width;
+		    	dist = end.getPathMap()[pos-1-width];
+		    }
+		    
+		    // Haut
+		    if((pos-width >= 0) && (end.getPathMap()[pos-width] < dist) && (end.getPathMap()[pos-width] > -1)){
+		    	currentPos = pos-width;
+		    	dist = end.getPathMap()[pos-width];
+		    }
+		    
+		    // Haut-droite
+		    if((pos+1-width > 0) && (pos%width !=(width-1)) && (end.getPathMap()[pos+1-width] < dist) && (end.getPathMap()[pos+1-width] > -1)){
+		    	currentPos = pos+1-width;
+		    	dist = end.getPathMap()[pos+1-width];
+		    }
+		    
+		    // Gauche
+		    if((pos-1 >= 0) && (pos%width!=0) && (end.getPathMap()[pos-1] < dist) && (end.getPathMap()[pos-1] > -1)){
+		    	currentPos = pos-1;
+		    	dist = end.getPathMap()[pos-1];
+		    }
+		    
+		    // Droite
+		    if((pos+1 < width*height) && (pos%width !=(width-1)) && (end.getPathMap()[pos+1] < dist) && (end.getPathMap()[pos+1] > -1)){
+		    	currentPos = pos+1;
+		    	dist = end.getPathMap()[pos+1];
+		    }
+		    
+		    // Bas-Gauche
+		    if((pos-1+width < width*height) && (pos%width!=0) && (end.getPathMap()[pos-1+width] < dist) && (end.getPathMap()[pos-1+width] > -1)){
+		    	currentPos = pos-1+width;
+		    	dist = end.getPathMap()[pos-1+width];
+		    }
+		    
+		    // Bas
+		    if((pos+width < width*height) && (end.getPathMap()[pos+width] < dist) && (end.getPathMap()[pos+width] > -1)){
+		    	currentPos = pos+width;
+		    	dist = end.getPathMap()[pos+width];
+		    }
+		    
+		    // Bas-droite
+		    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (end.getPathMap()[pos+1+width] < dist) && (end.getPathMap()[pos+1+width] > -1)){
+		    	currentPos = pos+1+width;
+		    	dist = end.getPathMap()[pos+1+width];
+		    }
+		    pathTable.add(currentPos);
+		    pos = currentPos;
+		    System.out.println(dist);
+
+		}
+		
+		return pathTable;
+	}
+	
+	public LinkedList<Vector<Integer>> convertPosToCoord(ArrayList<Integer> pathTable){
+		LinkedList<Vector<Integer>> path = new LinkedList<Vector<Integer>>();
+		int pos = 0;
+		int x, y;
+		
+		for(int i = 0; i < pathTable.size(); i++){
+			pos = pathTable.get(i);
+			x = (pos%width)*case_cote;
+			y = (pos/width)*case_cote;
+			Vector<Integer> vector = new Vector<Integer>();
+			vector.addElement(x);
+			vector.addElement(y);
+			path.add(vector);
+		}
+		
+		return path;
 	}
 	
 	public void save(String fichier)
