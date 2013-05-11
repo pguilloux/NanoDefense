@@ -110,21 +110,34 @@ public class Zone extends RoundButton{
     public void setColor()
     {
     	if(getActive())
-    		this.setBackground(Color.BLACK);
+		switch(this.getProprio())
+    	{    		
+    		case 1:
+    			this.setBackground(new Color(255, 0, 0));
+    		break;
+    	
+    		case 2:
+    			this.setBackground(new Color(0, 0, 255));
+    		break;
+    		
+    		default:
+    			this.setBackground(new Color(0, 0, 0));
+    		break;
+    	}
     	else
     	switch(this.getProprio())
     	{
     		
     		case 1:
-    			this.setBackground(Color.RED);
+    			this.setBackground(new Color(180, 0, 0));
     		break;
     	
     		case 2:
-    			this.setBackground(Color.BLUE);
+    			this.setBackground(new Color(0, 0, 180));
     		break;
     		
     		default:
-    			this.setBackground(Color.WHITE);
+    			this.setBackground(new Color(255, 255, 255));
     		break;
     	}
     }

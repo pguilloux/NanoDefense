@@ -3,6 +3,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 public class Agent extends RoundButton{
 	/*****VARIABLES*****/
+	
 	private float x;
 	private float y;
 	private int proprio;
@@ -12,6 +13,7 @@ public class Agent extends RoundButton{
 	private int speed;
 	
 	/*****GET&SET******/
+	
 	public float getx()
 	{ 
 		return this.x; 
@@ -30,6 +32,7 @@ public class Agent extends RoundButton{
 	}
 	
 	/******CONSTRUCTOR*******/
+	
 	public Agent(int proprio, Zone zone_start, Zone zone_stop)
 	{
 		zone_start.setNbAgents(-1);
@@ -41,12 +44,13 @@ public class Agent extends RoundButton{
 		this.move=true;
 		this.speed=5;
 	}
+	
 	/********FUNCTIONS*******/
+	
 	 public void setColor()
     {
     	switch(this.getProprio())
-    	{
-    		
+    	{    		
     		case 1:
     			this.setBackground(Color.RED);
     		break;

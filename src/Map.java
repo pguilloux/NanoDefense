@@ -34,6 +34,10 @@ public class Map
 	{
 		return table[i];
 	}
+	public void setTable(int i, int value)
+	{
+		table[i]=value;
+	}
 	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
 	{		
 		this.zones=zones;
