@@ -15,6 +15,7 @@ public class Zone extends RoundButton{
 	private boolean active;
 	private boolean[] mod;
 	private int[] pathMap;
+	private int indexInPath;
 	private ArrayList<Tower> tours;
 	
 	/******CONSTRUCTORS*****/
@@ -113,7 +114,13 @@ public class Zone extends RoundButton{
 	public void setPathMap(int position, int distance) {
 		this.pathMap[position] = distance;
 	}
-	
+	public int getIndexInPath() {
+		return indexInPath;
+	}
+	public void setIndexInPath(int indexInPath) {
+		this.indexInPath = indexInPath;
+	}
+
 	/********FUNCTIONS********/
     public void setColor()
     {
