@@ -1,13 +1,20 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-public class MapEditor extends JFrame implements ActionListener
+public class MapEditor extends JFrame implements ActionListener, KeyListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4108996025929159043L;
+	
 	private Map map;
 	private ArrayList<JButton> cases=new ArrayList<JButton>();
 	private JPanel pan;
@@ -28,6 +35,7 @@ public class MapEditor extends JFrame implements ActionListener
 		
 		this.setContentPane(build());
 		this.setVisible(true);
+		this.addKeyListener(this);
 	}
 	public JPanel build()
 	{
@@ -70,4 +78,15 @@ public class MapEditor extends JFrame implements ActionListener
 		}
 		repaint();
 	}
+		public void keyPressed(KeyEvent event) {
+	      System.out.println("Code touche pressée : " + event.getKeyCode() + " - caractère touche pressée : " + event.getKeyChar());
+	    }
+	 
+	    public void keyReleased(KeyEvent event) {
+	      System.out.println("Code touche relâchée : " + event.getKeyCode() + " - caractère touche relâchée : " + event.getKeyChar());                      
+	    }
+	 
+	    public void keyTyped(KeyEvent event) {
+	      System.out.println("Code touche tapée : " + event.getKeyCode() + " - caractère touche tapée : " + event.getKeyChar());
+	    }   
 }
