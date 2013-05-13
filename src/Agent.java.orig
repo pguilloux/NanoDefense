@@ -34,7 +34,12 @@ public class Agent extends RoundButton{
 	}
 	
 	/******CONSTRUCTOR*******/
+<<<<<<< HEAD
+	
+	public Agent(int proprio, Zone zone_start, Zone zone_stop)
+=======
 	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
 	{
 		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		

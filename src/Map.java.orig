@@ -37,16 +37,17 @@ public class Map
 	{
 		return table[i];
 	}
+<<<<<<< HEAD
 	public void setTable(int i, int value)
 	{
 		table[i]=value;
-	}
+=======
+	
 	public int getNb_zones() 
 	{
 		return nb_zones;
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
 	}
-
-	
 	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
 	{		
 		this.zones=zones;
@@ -135,7 +136,7 @@ public class Map
 				int proprio = Integer.parseInt(val.nextToken());
 				int nb = Integer.parseInt(val.nextToken());	
 				Zone newZone = new Zone(x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
+				/*newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
 				if(j == 2){
 				/*boucle d'affichage de la map de PathFining dans la console*/
@@ -152,10 +153,14 @@ public class Map
 						}
 					}
 					System.out.println(" ");
+<<<<<<< HEAD
+				}*/
+=======
 				}
 				System.out.println(" ");
 				}
 				
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
 				zones.add(newZone);
 			}
 			br.close(); 
@@ -243,8 +248,14 @@ public class Map
     	    // Bas-droite
     	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1+width] == -1) && (zone.getPathMap()[pos+1+width] != -3) && (zone.getPathMap()[pos+1+width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1+width));
-    	    	zone.setPathMap(pos+1+width, -3);
+<<<<<<< HEAD
     	    }
+    	    if(id > id2){
+    	    	//System.out.println(id);
+    	    	id2++;
+=======
+    	    	zone.setPathMap(pos+1+width, -3);
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
     	    }
         }
 	}
