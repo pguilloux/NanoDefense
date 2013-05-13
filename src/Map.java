@@ -128,14 +128,14 @@ public class Map
 				int proprio = Integer.parseInt(val.nextToken());
 				int nb = Integer.parseInt(val.nextToken());	
 				Zone newZone = new Zone(x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
+				/*newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
 						System.out.print(newZone.getPathMap()[i*width+k]+" ");
 					}
 					System.out.println(" ");
-				}
+				}*/
 				zones.add(newZone);
 			}
 			br.close(); 
@@ -212,7 +212,7 @@ public class Map
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1+width));
     	    }
     	    if(id > id2){
-    	    	System.out.println(id);
+    	    	//System.out.println(id);
     	    	id2++;
     	    }
         }
