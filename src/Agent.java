@@ -79,8 +79,18 @@ public class Agent extends RoundButton{
 	{
 		if(move)
 		{
-			/*float dx, dy;
-			if(this.x != path.getFirst().elementAt(0) && this.y != path.getFirst().elementAt(1)){
+			float dx, dy, dx1, dy1, absx1, absy1;
+			if(!path.isEmpty()){
+				dx1 = path.getFirst().elementAt(0)-this.x;
+				dy1 = path.getFirst().elementAt(1)-this.y;
+			
+				absx1 = (dx1<0)?-dx1:dx1;
+				absy1 = (dy1<0)?-dy1:dy1;
+			
+			//System.out.println("absx1: "+absx1+" absy1: "+absy1+" case:"+path.getFirst());
+			//if(this.x != path.getFirst().elementAt(0) && this.y != path.getFirst().elementAt(1)){
+			//if(Math.abs(path.getFirst().elementAt(0) - this.x) < 1 && Math.abs(path.getFirst().elementAt(1)) -this.y < 1){
+			if(absx1>1 && absy1>=1){
 				dx = path.getFirst().elementAt(0)-this.x;
 				dy = path.getFirst().elementAt(1)-this.y;
 				System.out.println("tata");
@@ -91,13 +101,18 @@ public class Agent extends RoundButton{
 				dx = vect.elementAt(0)-this.x;
 				dy = vect.elementAt(1)-this.y;	
 				System.out.println("toto");
-			}*/
-			float dx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
-			float dy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;
+			}
+			if(!path.isEmpty()){
+			/*float dx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
+			float dy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;*/
 			float absx=(dx<0)?-dx:dx;
 			float absy=(dy<0)?-dy:dy;
-			if(absx<1 && absy<=1)
+			
+			System.out.println(path.getFirst());
+			
+			if(absx<1 && absy<=1 && path.getFirst().elementAt(0) == zone_stop.getX() && path.getFirst().elementAt(1) == zone_stop.getY())
 			{		
+				System.out.println("toto");
 				if(zone_stop.getProprio()==this.getProprio())
 				{
 					zone_stop.setNbAgents(1);
@@ -117,19 +132,17 @@ public class Agent extends RoundButton{
 				}
 				move=false;
 			}
-			else
-			{
-				
-	
-				float vx=dx/(absx+absy);
-				float vy=dy/(absx+absy);
-				
-				this.x+=vx*speed;
-				this.y+=vy*speed;
-			}
+			
+			float vx=dx/(absx+absy);
+			float vy=dy/(absx+absy);
+			
+			this.x+=vx*speed;
+			this.y+=vy*speed;
+			
 					
 			this.setBounds((int)this.getx(),(int)this.gety(), 10, 10);	
 			this.setColor();
+			}}
 		}
 		
 		//void active(Tower tower);
