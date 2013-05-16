@@ -58,51 +58,11 @@ public class Map
 	}
 	public Map(String fichier)
 	{		
+		zones=new ArrayList<Zone>();
 		case_cote=10;
 		try 
 		{ 
-			InputStream ips = new FileInputStream(fichier); // mon fichier texte pour tester 
-			InputStreamReader ipsr = new InputStreamReader(ips); 
-			BufferedReader br = new BufferedReader(ipsr); 
-			String ligne;
-			ligne = br.readLine();
-			
-			StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
-	
-			width=Integer.parseInt(val.nextToken()); 
-			height=Integer.parseInt(val.nextToken());
-			table=new int[width*height];
-			for(int j=0;j<height;j++)	
-			{
-				ligne = br.readLine();
-				val = new StringTokenizer(ligne," ");
-				for(int i=0;i<width;i++)	
-				{
-					table[i+j*width] = Integer.parseInt(val.nextToken());
-				}
-			}	
-			br.close(); 
-		} 
-		catch (Exception e) { 
-			System.out.println(e.toString()); 
-		} 		 
-	}
-	public void build(int width, int height)
-	{		
-		this.width=width;
-		this.height=height;
-		this.case_cote=10;
-		table=new int[width*height];
-		java.util.Random rand = new java.util.Random();
-		for(int j=0;j<height*width;j++)	
-		table[j] = rand.nextInt(2);
-	}
-	public void build(String fichier)
-	{		
-		case_cote=10;
-		try 
-		{ 
-			InputStream ips = new FileInputStream(fichier); // mon fichier texte pour tester 
+			InputStream ips = new FileInputStream(fichier); 
 			InputStreamReader ipsr = new InputStreamReader(ips); 
 			BufferedReader br = new BufferedReader(ipsr); 
 			String ligne;
@@ -157,6 +117,84 @@ public class Map
 				}
 				
 				zones.add(newZone);
+			}
+			br.close(); 
+		} 
+		catch (Exception e) { 
+			System.out.println(e.toString()); 
+		} 		
+	}
+	public void build(int width, int height)
+	{		
+		this.width=width;
+		this.height=height;
+		this.case_cote=10;
+		table=new int[width*height];
+		java.util.Random rand = new java.util.Random();
+		for(int j=0;j<height*width;j++)	
+		table[j] = rand.nextInt(2);
+	}
+	public void build(String fichier)
+	{		
+		case_cote=10;
+		try 
+		{ 
+			InputStream ips = new FileInputStream(fichier); 
+			InputStreamReader ipsr = new InputStreamReader(ips); 
+			BufferedReader br = new BufferedReader(ipsr); 
+			String ligne;
+			ligne = br.readLine();
+			
+			StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
+	
+			width=Integer.parseInt(val.nextToken()); 
+			height=Integer.parseInt(val.nextToken());
+			table=new int[width*height];
+			for(int j=0;j<height;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				for(int i=0;i<width;i++)	
+				{
+					table[i+j*width] = Integer.parseInt(val.nextToken());
+				}
+			}	
+			ligne = br.readLine();
+			val = new StringTokenizer(ligne," ");
+			nb_zones = Integer.parseInt(val.nextToken());
+			for(int j=0;j<nb_zones;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				int x = Integer.parseInt(val.nextToken());
+				int y = Integer.parseInt(val.nextToken());
+				int taille = Integer.parseInt(val.nextToken());
+				int proprio = Integer.parseInt(val.nextToken());
+				int nb = Integer.parseInt(val.nextToken());	
+				Zone newZone = new Zone(x,y,taille,proprio,nb);
+				newZone.buildPathMap(width, height);
+				buildZonePathMap(newZone);
+				if(j == 2){
+				/*boucle d'affichage de la map de PathFining dans la console*/
+				for(int i=0; i<height; i++){
+					for(int k=0; k<width; k++){
+						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+						}
+						if(newZone.getPathMap()[i*width+k] > 99){
+							System.out.print(newZone.getPathMap()[i*width+k]+" ");
+						}
+						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+						}
+					}
+					System.out.println(" ");
+				}
+				System.out.println(" ");
+				}
+				
+				zones.add(newZone);
+				System.out.println("zone créée ");
 			}
 			br.close(); 
 		} 
@@ -247,7 +285,7 @@ public class Map
     	    }
     	    }
         }
-	}
+	
 	
 	public ArrayList<Integer> getPathTableToZone(Zone start, Zone end){
 		
@@ -342,10 +380,38 @@ public class Map
 			FileWriter fw = new FileWriter (fichier);
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-			fichierSortie.println (width);
-			fichierSortie.println (height);
-			for(int i=0;i<width*height;i++)
-				fichierSortie.println (table[i]); 
+			fichierSortie.print (width);
+			fichierSortie.print(" "); 
+			fichierSortie.print (height);
+			fichierSortie.print("\r"); 
+			for(int i=0;i<height;i++)
+			{
+				for(int j=0;j<width;j++)
+				{
+					fichierSortie.print (table[i*width+j]);
+					fichierSortie.print(" ");
+				}
+				fichierSortie.print("\r"); 
+			}
+			
+			fichierSortie.print(nb_zones);
+			fichierSortie.print("\r");
+			
+			
+			for(int k=0; k<nb_zones;k++)
+			{
+				fichierSortie.print((int)zones.get(k).getx());
+				fichierSortie.print(" "); 
+				fichierSortie.print((int)zones.get(k).gety());
+				fichierSortie.print(" "); 
+				fichierSortie.print(zones.get(k).getTaille());
+				fichierSortie.print(" "); 
+				fichierSortie.print(zones.get(k).getProprio());
+				fichierSortie.print(" "); 
+				fichierSortie.print(zones.get(k).getNbAgents());	
+				fichierSortie.print("\r\n"); 
+			}
+			System.out.println("zones save");
 			fichierSortie.close();
 			System.out.println("Le fichier " + fichier + " a été créé!"); 
 		}

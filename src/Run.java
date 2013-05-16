@@ -2,8 +2,7 @@ public class Run
 {	
 	public static void main(String[] args)
 	{
-				MapEditor game = new MapEditor("map.txt");
+				MapEditor game = new MapEditor("save.txt");
 				//game.build();
-				//commentaire pour tester le pull git chez jojo
 	}
 }

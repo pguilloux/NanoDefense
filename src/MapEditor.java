@@ -22,27 +22,27 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener
 	public MapEditor(String fichier)
 	{
 		this.map= new Map(fichier);
-		map.build(fichier);
+		//map.build(fichier);
 		pan=new JPanel();
 		this.setTitle("Animation");
 		this.setSize(800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		System.out.println(map.getWidth()); 
-		System.out.println(map.getHeight()); 
+		//System.out.println(map.getWidth()); 
+		//System.out.println(map.getHeight()); 
 		pan.setLayout(null);
 		//cases=new JButton[map.getWidth()*map.getHeight()];
 		
 		this.setContentPane(build());
 		this.setVisible(true);
-		this.addKeyListener(this);
+		
 	}
 	public JPanel build()
 	{
 		for(int i=0; i<map.getWidth()*map.getHeight();i++)
 		{
 			cases.add(new JButton());
-			System.out.println(i); 
+			//System.out.println(i); 
 			cases.get(i).addActionListener(this);
 			cases.get(i).setBounds((i%map.getWidth())*10, (i/map.getWidth())*10, 10, 10);
 			if(map.getTable(i)==0)	
@@ -52,6 +52,9 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener
 			
 			this.pan.add(cases.get(i));
 		}
+		this.setFocusable(true);
+		this.requestFocus();
+		this.addKeyListener(this);
 		return pan;
 	}
 	public void actionPerformed(ActionEvent e) 
@@ -77,9 +80,13 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener
 			}
 		}
 		repaint();
+		this.setFocusable(true);
+		this.requestFocus();
 	}
 		public void keyPressed(KeyEvent event) {
 	      System.out.println("Code touche pressée : " + event.getKeyCode() + " - caractère touche pressée : " + event.getKeyChar());
+	      if(event.getKeyCode()==83)
+	    	 map.save("save.txt");
 	    }
 	 
 	    public void keyReleased(KeyEvent event) {
