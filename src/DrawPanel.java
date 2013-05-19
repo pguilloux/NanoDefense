@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel{
@@ -33,6 +34,10 @@ public class DrawPanel extends JPanel{
 		}
 
 	}	
+	
+
+	
+	
 	
 	@Override
     public void paintComponent(Graphics g) {

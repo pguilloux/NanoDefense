@@ -31,11 +31,7 @@ class Dispatcher implements ActionListener
     	this.pan=buildContentPane();
     	Thread t = new Thread(new GameEngine(zones,agents,pan, map));
 		t.start(); 
-		/* new Thread(new Runnable() {
-		      public void run() {
-		        SwingUtilities.invokeLater(new GameEngine(zones,agents,pan));
-		      }
-		  }).start();*/
+
     	
     }
 
@@ -43,12 +39,6 @@ class Dispatcher implements ActionListener
 
 	private DrawPanel buildContentPane()
 	{	
-		//panel.setLayout(new FlowLayout());
-
-		/*zones.add(new Zone(20,400,80));
-		zones.add(new Zone(600,400,150,1,100));
-		zones.add(new Zone(400,200,100,1,100));
-		zones.add(new Zone(300,100,70,2,20));*/
 		
 		pan.setLayout(null);
 		
@@ -102,20 +92,9 @@ class Dispatcher implements ActionListener
 								{	
 									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i), map));
 								}
-								/*if(zones.get(i).getNbAgents()>0 && zones.get(i).getProprio()==zones.get(j).getProprio())
-								{
-									zones.get(i).setActive(true);
-									//zones.get(i).setBackground(Color.BLACK);
-								}*/
+							
 							}
-							/*else
-							{
-								if(zones.get(i).getProprio()!=0 && )
-								{
-									zones.get(i).setActive(true);
-									//zones.get(i).setBackground(Color.BLACK);
-								}
-							}*/
+						
 						}
 					}
 					if(zap>=0 && zae==0 && zones.get(i).getProprio()!=0)

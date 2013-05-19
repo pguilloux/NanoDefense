@@ -37,16 +37,17 @@ public class Map
 	{
 		return table[i];
 	}
+<<<<<<< HEAD
 	public void setTable(int i, int value)
 	{
 		table[i]=value;
-	}
+=======
+	
 	public int getNb_zones() 
 	{
 		return nb_zones;
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
 	}
-
-	
 	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
 	{		
 		this.zones=zones;
@@ -58,11 +59,10 @@ public class Map
 	}
 	public Map(String fichier)
 	{		
-		zones=new ArrayList<Zone>();
 		case_cote=10;
 		try 
 		{ 
-			InputStream ips = new FileInputStream(fichier); 
+			InputStream ips = new FileInputStream(fichier); // mon fichier texte pour tester 
 			InputStreamReader ipsr = new InputStreamReader(ips); 
 			BufferedReader br = new BufferedReader(ipsr); 
 			String ligne;
@@ -82,47 +82,11 @@ public class Map
 					table[i+j*width] = Integer.parseInt(val.nextToken());
 				}
 			}	
-			ligne = br.readLine();
-			val = new StringTokenizer(ligne," ");
-			nb_zones = Integer.parseInt(val.nextToken());
-			for(int j=0;j<nb_zones;j++)	
-			{
-				ligne = br.readLine();
-				val = new StringTokenizer(ligne," ");
-				int x = Integer.parseInt(val.nextToken());
-				int y = Integer.parseInt(val.nextToken());
-				int taille = Integer.parseInt(val.nextToken());
-				int proprio = Integer.parseInt(val.nextToken());
-				int nb = Integer.parseInt(val.nextToken());	
-				Zone newZone = new Zone(x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
-				buildZonePathMap(newZone);
-				if(j == 2){
-				/*boucle d'affichage de la map de PathFining dans la console*/
-				for(int i=0; i<height; i++){
-					for(int k=0; k<width; k++){
-						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
-							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
-						}
-						if(newZone.getPathMap()[i*width+k] > 99){
-							System.out.print(newZone.getPathMap()[i*width+k]+" ");
-						}
-						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
-							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
-						}
-					}
-					System.out.println(" ");
-				}
-				System.out.println(" ");
-				}
-				
-				zones.add(newZone);
-			}
 			br.close(); 
 		} 
 		catch (Exception e) { 
 			System.out.println(e.toString()); 
-		} 		
+		} 		 
 	}
 	public void build(int width, int height)
 	{		
@@ -139,7 +103,7 @@ public class Map
 		case_cote=10;
 		try 
 		{ 
-			InputStream ips = new FileInputStream(fichier); 
+			InputStream ips = new FileInputStream(fichier); // mon fichier texte pour tester 
 			InputStreamReader ipsr = new InputStreamReader(ips); 
 			BufferedReader br = new BufferedReader(ipsr); 
 			String ligne;
@@ -172,7 +136,7 @@ public class Map
 				int proprio = Integer.parseInt(val.nextToken());
 				int nb = Integer.parseInt(val.nextToken());	
 				Zone newZone = new Zone(x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
+				/*newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
 				if(j == 2){
 				/*boucle d'affichage de la map de PathFining dans la console*/
@@ -189,12 +153,15 @@ public class Map
 						}
 					}
 					System.out.println(" ");
+<<<<<<< HEAD
+				}*/
+=======
 				}
 				System.out.println(" ");
 				}
 				
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
 				zones.add(newZone);
-				System.out.println("zone créée ");
 			}
 			br.close(); 
 		} 
@@ -281,11 +248,17 @@ public class Map
     	    // Bas-droite
     	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zone.getPathMap()[pos+1+width] == -1) && (zone.getPathMap()[pos+1+width] != -3) && (zone.getPathMap()[pos+1+width] != -2)){
     	    	pathTableQueue.add(new PathCaseValue(id, pos+1+width));
-    	    	zone.setPathMap(pos+1+width, -3);
+<<<<<<< HEAD
     	    }
+    	    if(id > id2){
+    	    	//System.out.println(id);
+    	    	id2++;
+=======
+    	    	zone.setPathMap(pos+1+width, -3);
+>>>>>>> f30da020c61bff9bbf025015b5a4f49e12b60e2c
     	    }
         }
-	
+	}
 	
 	public ArrayList<Integer> getPathTableToZone(Zone start, Zone end){
 		
@@ -380,38 +353,10 @@ public class Map
 			FileWriter fw = new FileWriter (fichier);
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-			fichierSortie.print (width);
-			fichierSortie.print(" "); 
-			fichierSortie.print (height);
-			fichierSortie.print("\r"); 
-			for(int i=0;i<height;i++)
-			{
-				for(int j=0;j<width;j++)
-				{
-					fichierSortie.print (table[i*width+j]);
-					fichierSortie.print(" ");
-				}
-				fichierSortie.print("\r"); 
-			}
-			
-			fichierSortie.print(nb_zones);
-			fichierSortie.print("\r");
-			
-			
-			for(int k=0; k<nb_zones;k++)
-			{
-				fichierSortie.print((int)zones.get(k).getx());
-				fichierSortie.print(" "); 
-				fichierSortie.print((int)zones.get(k).gety());
-				fichierSortie.print(" "); 
-				fichierSortie.print(zones.get(k).getTaille());
-				fichierSortie.print(" "); 
-				fichierSortie.print(zones.get(k).getProprio());
-				fichierSortie.print(" "); 
-				fichierSortie.print(zones.get(k).getNbAgents());	
-				fichierSortie.print("\r\n"); 
-			}
-			System.out.println("zones save");
+			fichierSortie.println (width);
+			fichierSortie.println (height);
+			for(int i=0;i<width*height;i++)
+				fichierSortie.println (table[i]); 
 			fichierSortie.close();
 			System.out.println("Le fichier " + fichier + " a été créé!"); 
 		}
