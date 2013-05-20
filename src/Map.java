@@ -53,9 +53,11 @@ public class Map
 		this.zones=zones;
 		this.case_cote=10;
 		table=new int[width*height];
+		zonesInfluenceMap=new int[width*height];
 		java.util.Random rand = new java.util.Random();
-		for(int j=0;j<height*width;j++)	
-		table[j] = rand.nextInt(2);
+		for(int j=0;j<height*width;j++)
+			table[j] = rand.nextInt(2);
+		
 	}
 	public Map(String fichier)
 	{		
@@ -74,6 +76,7 @@ public class Map
 			width=Integer.parseInt(val.nextToken()); 
 			height=Integer.parseInt(val.nextToken());
 			table=new int[width*height];
+			zonesInfluenceMap=new int[width*height];
 			for(int j=0;j<height;j++)	
 			{
 				ligne = br.readLine();
@@ -131,6 +134,7 @@ public class Map
 		this.height=height;
 		this.case_cote=10;
 		table=new int[width*height];
+		zonesInfluenceMap=new int[width*height];
 		java.util.Random rand = new java.util.Random();
 		for(int j=0;j<height*width;j++)	
 		table[j] = rand.nextInt(2);
@@ -151,6 +155,7 @@ public class Map
 			width=Integer.parseInt(val.nextToken()); 
 			height=Integer.parseInt(val.nextToken());
 			table=new int[width*height];
+			zonesInfluenceMap=new int[width*height];
 			for(int j=0;j<height;j++)	
 			{
 				ligne = br.readLine();
@@ -197,6 +202,7 @@ public class Map
 				zones.add(newZone);
 				System.out.println("zone créée ");
 			}
+			setZonesInfluence();
 			br.close(); 
 		} 
 		catch (Exception e) { 
@@ -376,6 +382,101 @@ public class Map
 	}
 	
 	public void setZonesInfluence(){
+		
+		for(int k=0; k<width*height; k++){
+			if(table[k]==1)
+				zonesInfluenceMap[k] = -2;
+			else
+				zonesInfluenceMap[k] = -1;
+		}
+		
+		
+		//on utilise une Liste FIFO pour traiter dans l'ordre les différentes cases à remplir avec leur id de zone
+		pathTableQueue = new LinkedList<PathCaseValue>();
+		
+		//construction de la map d'influence des zones en partant de leurs positions centrales
+		for(int l = 0; l < zones.size(); l++){
+			pathTableQueue.add(new PathCaseValue(l+1, zones.get(l).getIndexInPath()));
+		}
+		
+		/*boucle qui défile la liste et traite toutes les cases autour de la case défliée. Si ces cases remplissent les conditions, 
+		alors on les ajoute à la file et on règle la case de le tableau de la map à -3 pour ne pas la retraiter dans les tours de boucle suivants*/
+		while(pathTableQueue.size() != 0){
+	    	PathCaseValue values = pathTableQueue.poll();
+	    	
+	    	int pos = values.getPosition();
+	    	
+	    	//on assigne la valeur la case de la map de PathFinding avec l'id de la zone qui prend cette case dans son rayon d'influence
+	    	zonesInfluenceMap[pos] = values.getDistance();
+
+	    	
+	    	// Haut-Gauche
+    	    if((pos-1-width >= 0) && (pos%width!=0) && (zonesInfluenceMap[pos-1-width] == -1) && (zonesInfluenceMap[pos-1-width] != -3) && (zonesInfluenceMap[pos-1-width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos-1-width));
+    	    	zonesInfluenceMap[pos-1-width] = -3;
+    	    }
+    	    
+    	    // Haut
+    	    if((pos-width >= 0) && (zonesInfluenceMap[pos-width] == -1) && (zonesInfluenceMap[pos-width] != -3) && (zonesInfluenceMap[pos-width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos-width));
+    	    	zonesInfluenceMap[pos-width] = -3;
+    	    }
+    	    
+    	    // Haut-droite
+    	    if((pos+1-width > 0) && (pos%width !=(width-1)) && (zonesInfluenceMap[pos+1-width] == -1) && (zonesInfluenceMap[pos+1-width] != -3) && (zonesInfluenceMap[pos+1-width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos+1-width));
+    	    	zonesInfluenceMap[pos+1-width] = -3;
+    	    }
+    	    
+    	    // Gauche
+    	    if((pos-1 >= 0) && (pos%width!=0) && (zonesInfluenceMap[pos-1] == -1) && (zonesInfluenceMap[pos-1] != -3) && (zonesInfluenceMap[pos-1] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos-1));
+    	    	zonesInfluenceMap[pos-1] = -3;
+    	    }
+    	    
+    	    // Droite
+    	    if((pos+1 < width*height) && (pos%width !=(width-1)) && (zonesInfluenceMap[pos+1] == -1) && (zonesInfluenceMap[pos+1] != -3) && (zonesInfluenceMap[pos+1] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos+1));
+    	    	zonesInfluenceMap[pos+1] = -3;
+    	    }
+    	    
+    	    // Bas-Gauche
+    	    if((pos-1+width < width*height) && (pos%width!=0) && (zonesInfluenceMap[pos-1+width] == -1) && (zonesInfluenceMap[pos-1+width] != -3) && (zonesInfluenceMap[pos-1+width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos-1+width));
+    	    	zonesInfluenceMap[pos-1+width] = -3;
+    	    }
+    	    
+    	    // Bas
+    	    if((pos+width < width*height) && (zonesInfluenceMap[pos+width] == -1) && (zonesInfluenceMap[pos+width] != -3) && (zonesInfluenceMap[pos+width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos+width));	
+    	    	zonesInfluenceMap[pos+width] = -3;
+    	    }
+    	    
+    	    // Bas-droite
+    	    if((pos+1+width < width*height) && (pos%width !=(width-1)) && (zonesInfluenceMap[pos+1+width] == -1) && (zonesInfluenceMap[pos+1+width] != -3) && (zonesInfluenceMap[pos+1+width] != -2)){
+    	    	pathTableQueue.add(new PathCaseValue(zonesInfluenceMap[pos], pos+1+width));
+    	    	zonesInfluenceMap[pos+1+width] = -3;
+    	    }
+    	  }
+		
+		System.out.println("done man !");
+		
+		//boucle d'affichage en console de la map d'influence des zones
+		for(int i=0; i<height; i++){
+			for(int k=0; k<width; k++){
+				if(zonesInfluenceMap[i*width+k] < 0 || (zonesInfluenceMap[i*width+k] > 9 && zonesInfluenceMap[i*width+k] < 100)){
+					System.out.print(zonesInfluenceMap[i*width+k]+"  ");
+				}
+				if(zonesInfluenceMap[i*width+k] > 99){
+					System.out.print(zonesInfluenceMap[i*width+k]+" ");
+				}
+				if(zonesInfluenceMap[i*width+k] < 10 && zonesInfluenceMap[i*width+k] > -1){
+					System.out.print(zonesInfluenceMap[i*width+k]+"   ");
+				}
+			}
+			System.out.println(" ");
+		}
+		System.out.println(" ");
 		
 	}
 	
