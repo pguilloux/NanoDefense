@@ -5,6 +5,7 @@ import javax.swing.JButton;
 
 public class Zone extends RoundButton{
 	/*******VARIABLES********/
+	private float zoneId;
 	private float x; 
 	private float y;
 	private int taille;
@@ -19,8 +20,9 @@ public class Zone extends RoundButton{
 	private ArrayList<Tower> tours;
 	
 	/******CONSTRUCTORS*****/
-	public Zone(float x, float y, int taille, int proprio, int nb_agents)//zone occupée
+	public Zone(int id, float x, float y, int taille, int proprio, int nb_agents)//zone occupée
 	{
+		this.zoneId = id;
 		this.x=x;
 		this.y=y;
 		this.taille=taille;
@@ -44,6 +46,10 @@ public class Zone extends RoundButton{
 	}
 	
 	/********GET&SET*********/
+	public float getZoneId()
+	{ 
+		return this.zoneId; 
+	}
 	public float getx()
 	{ 
 		return this.x; 

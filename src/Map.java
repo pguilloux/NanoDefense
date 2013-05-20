@@ -19,6 +19,7 @@ public class Map
 	private int case_cote;
 	private int nb_zones;
 	private int[] table;
+	private int[] zonesInfluenceMap;
 	private ArrayList<Zone>zones;
 	private ArrayList<Tower>towers;
 	private LinkedList<PathCaseValue> pathTableQueue;
@@ -94,7 +95,7 @@ public class Map
 				int taille = Integer.parseInt(val.nextToken());
 				int proprio = Integer.parseInt(val.nextToken());
 				int nb = Integer.parseInt(val.nextToken());	
-				Zone newZone = new Zone(x,y,taille,proprio,nb);
+				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
 				if(j == 2){
@@ -171,7 +172,7 @@ public class Map
 				int taille = Integer.parseInt(val.nextToken());
 				int proprio = Integer.parseInt(val.nextToken());
 				int nb = Integer.parseInt(val.nextToken());	
-				Zone newZone = new Zone(x,y,taille,proprio,nb);
+				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
 				if(j == 2){
@@ -372,6 +373,10 @@ public class Map
 		}
 		
 		return path;
+	}
+	
+	public void setZonesInfluence(){
+		
 	}
 	
 	public void save(String fichier)
