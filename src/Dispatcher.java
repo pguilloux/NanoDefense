@@ -25,7 +25,8 @@ class Dispatcher implements ActionListener
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
     	map=new Map(zones,towers);
-    	map.build("map.txt");
+    	map.build("map2.jpg");
+    	//map.buildFromImage("map2.jpg");
     	pan=new DrawPanel(zones,agents,towers,map);
 
     	this.pan=buildContentPane();

@@ -1,7 +1,10 @@
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
 
 public class Map
 {
@@ -142,72 +147,195 @@ public class Map
 	public void build(String fichier)
 	{		
 		case_cote=10;
+
 		try 
 		{ 
-			InputStream ips = new FileInputStream(fichier); 
-			InputStreamReader ipsr = new InputStreamReader(ips); 
-			BufferedReader br = new BufferedReader(ipsr); 
-			String ligne;
-			ligne = br.readLine();
-			
-			StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
-	
-			width=Integer.parseInt(val.nextToken()); 
-			height=Integer.parseInt(val.nextToken());
-			table=new int[width*height];
-			zonesInfluenceMap=new int[width*height];
-			for(int j=0;j<height;j++)	
-			{
-				ligne = br.readLine();
-				val = new StringTokenizer(ligne," ");
-				for(int i=0;i<width;i++)	
+			if(fichier.contains(".jpg")){
+				
+				width=80; 
+				height=80;
+				table=new int[width*height];
+				zonesInfluenceMap=new int[width*height];
+				int[][] pixelData = buildFromImage(fichier);
+				for(int j=0;j<height;j++)	
 				{
-					table[i+j*width] = Integer.parseInt(val.nextToken());
-				}
-			}	
-			ligne = br.readLine();
-			val = new StringTokenizer(ligne," ");
-			nb_zones = Integer.parseInt(val.nextToken());
-			for(int j=0;j<nb_zones;j++)	
-			{
-				ligne = br.readLine();
-				val = new StringTokenizer(ligne," ");
-				int x = Integer.parseInt(val.nextToken());
-				int y = Integer.parseInt(val.nextToken());
-				int taille = Integer.parseInt(val.nextToken());
-				int proprio = Integer.parseInt(val.nextToken());
-				int nb = Integer.parseInt(val.nextToken());	
-				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
-				buildZonePathMap(newZone);
-				if(j == 2){
-				/*boucle d'affichage de la map de PathFining dans la console*/
-				for(int i=0; i<height; i++){
-					for(int k=0; k<width; k++){
-						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
-							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+					for(int i=0;i<width;i++)	
+					{
+						if(pixelData[j*width+i][0] > 200 && pixelData[j*width+i][1] > 200 && pixelData[j*width+i][2] > 200){
+							table[i+j*width] = 0;
 						}
-						if(newZone.getPathMap()[i*width+k] > 99){
-							System.out.print(newZone.getPathMap()[i*width+k]+" ");
+						if(pixelData[j*width+i][0] < 100 && pixelData[j*width+i][1] < 100 && pixelData[j*width+i][2] < 100){
+							table[i+j*width] = 1;
 						}
-						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
-							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+						
+					}
+				}	
+				
+				nb_zones = 1;
+				
+			
+					Zone newZone = new Zone(1, 200,200,60,1,30);
+					Zone newZone2 = new Zone(2, 100,500,70,2,50);
+					Zone newZone3 = new Zone(3, 260,260,50,0,10);
+					newZone.buildPathMap(width, height);
+					newZone2.buildPathMap(width, height);
+					newZone3.buildPathMap(width, height);
+					buildZonePathMap(newZone);
+					buildZonePathMap(newZone2);
+					buildZonePathMap(newZone3);
+				
+					/*boucle d'affichage de la map de PathFining dans la console*/
+					/*for(int i=0; i<height; i++){
+						for(int k=0; k<width; k++){
+							if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+								System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+							}
+							if(newZone.getPathMap()[i*width+k] > 99){
+								System.out.print(newZone.getPathMap()[i*width+k]+" ");
+							}
+							if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+								System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+							}
 						}
+						System.out.println(" ");
 					}
 					System.out.println(" ");
+					
+					*/
+					zones.add(newZone);
+					zones.add(newZone2);
+					zones.add(newZone3);
+					System.out.println("zone créée ");
+					setZonesInfluence();
+				}
+
+			else{
+				InputStream ips = new FileInputStream(fichier); 
+				InputStreamReader ipsr = new InputStreamReader(ips); 
+				BufferedReader br = new BufferedReader(ipsr); 
+				String ligne;
+				ligne = br.readLine();
+				
+				StringTokenizer val = new StringTokenizer(ligne," "); // ici point important: ," " indique qu'on utilise le séparateur de mots (de valeurs) espace. 
+		
+				width=Integer.parseInt(val.nextToken()); 
+				height=Integer.parseInt(val.nextToken());
+				table=new int[width*height];
+				zonesInfluenceMap=new int[width*height];
+				for(int j=0;j<height;j++)	
+				{
+					ligne = br.readLine();
+					val = new StringTokenizer(ligne," ");
+					for(int i=0;i<width;i++)	
+					{
+						table[i+j*width] = Integer.parseInt(val.nextToken());
+					}
+				}	
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				nb_zones = Integer.parseInt(val.nextToken());
+				
+				
+				for(int j=0;j<nb_zones;j++)	
+				{
+	
+					ligne = br.readLine();
+					val = new StringTokenizer(ligne," ");
+					
+					int x = Integer.parseInt(val.nextToken());
+					int y = Integer.parseInt(val.nextToken());
+					int taille = Integer.parseInt(val.nextToken());
+					int proprio = Integer.parseInt(val.nextToken());
+					int nb = Integer.parseInt(val.nextToken());	
+					Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
+					newZone.buildPathMap(width, height);
+					buildZonePathMap(newZone);
+					if(j == 2){
+					/*boucle d'affichage de la map de PathFining dans la console*/
+					for(int i=0; i<height; i++){
+						for(int k=0; k<width; k++){
+							if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+								System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+							}
+							if(newZone.getPathMap()[i*width+k] > 99){
+								System.out.print(newZone.getPathMap()[i*width+k]+" ");
+							}
+							if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+								System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+							}
+						}
+						System.out.println(" ");
+					}
+					System.out.println(" ");
+					}
+					
+					zones.add(newZone);
+					System.out.println("zone créée ");
+				}
+				setZonesInfluence();
+				br.close(); 
+			}} 
+			catch (Exception e) { 
+				System.out.println(e.toString()); 
+			}	
+		
+
+	}
+	
+	
+	public int[][] buildFromImage(String imgFile){
+		BufferedImage img;
+		int[][] pixelData = new int[80*80][3];
+	    try {
+	        img = ImageIO.read(new File(imgFile));
+
+	        pixelData = new int[img.getHeight() * img.getWidth()][3];
+	        int[] rgb;// = new int[img.getHeight() * img.getWidth()];
+
+	        int counter = 0;
+	        for(int i = 0; i < img.getHeight(); i++){
+	            for(int j = 0; j < img.getWidth(); j++){
+	                rgb = getPixelData(img, j, i);
+
+	                for(int k = 0; k < rgb.length; k++){
+	                    pixelData[counter][k] = rgb[k];
+	                }
+
+	                counter++;
+	            }
+	        }
+	  
+	        for(int i=0; i<img.getHeight(); i++){
+				for(int k=0; k<img.getWidth(); k++){
+					if(pixelData[i*img.getWidth()+k][0] == 255 && pixelData[i*img.getWidth()+k][1] == 255 && pixelData[i*img.getWidth()+k][2] == 255){
+						System.out.print("B");
+					}
+					if(pixelData[i*img.getWidth()+k][0] == 0 && pixelData[i*img.getWidth()+k][1] == 0 && pixelData[i*img.getWidth()+k][2] == 0){
+						System.out.print(" ");
+					}
 				}
 				System.out.println(" ");
-				}
-				
-				zones.add(newZone);
-				System.out.println("zone créée ");
 			}
-			setZonesInfluence();
-			br.close(); 
-		} 
-		catch (Exception e) { 
-			System.out.println(e.toString()); 
-		} 		
+
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return pixelData;
+	}
+	
+	private static int[] getPixelData(BufferedImage img, int x, int y) {
+		int argb = img.getRGB(x, y);
+
+		int rgb[] = new int[] {
+		    (argb >> 16) & 0xff, //red
+		    (argb >>  8) & 0xff, //green
+		    (argb      ) & 0xff  //blue
+		};
+
+		//System.out.println("rgb: " + rgb[0] + " " + rgb[1] + " " + rgb[2]);
+		return rgb;
 	}
 	
 	public void buildZonePathMap(Zone zone){
