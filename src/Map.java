@@ -161,11 +161,29 @@ public class Map
 				{
 					for(int i=0;i<width;i++)	
 					{
-						if(pixelData[j*width+i][0] > 200 && pixelData[j*width+i][1] > 200 && pixelData[j*width+i][2] > 200){
+						int r = pixelData[j*width+i][0];
+						int g = pixelData[j*width+i][1];
+						int b = pixelData[j*width+i][2];
+						int absRG = Math.abs(r-g);
+						int absRB = Math.abs(r-b);
+						int absGB = Math.abs(g-b);
+
+						if(r > 100 && absRG > 50 && absRB > 50){
+							table[i+j*width] = 1;
+							//System.out.println("totototoooooooooooooooooooooo");
+						}
+						
+						if(r > 50 && (g == b) && (g == r)){
 							table[i+j*width] = 0;
 						}
-						if(pixelData[j*width+i][0] < 100 && pixelData[j*width+i][1] < 100 && pixelData[j*width+i][2] < 100){
+						/*
+						if((r > g) && (r > b)){
+							table[i+j*width] = 0;
+						}*/
+						
+						if(r < 51 && g < 51 && b < 51){
 							table[i+j*width] = 1;
+							//System.out.println("raaaaaaaaaaaaaaararrrrrrrrrra");
 						}
 						
 					}
@@ -307,12 +325,36 @@ public class Map
 	  
 	        for(int i=0; i<img.getHeight(); i++){
 				for(int k=0; k<img.getWidth(); k++){
-					if(pixelData[i*img.getWidth()+k][0] == 255 && pixelData[i*img.getWidth()+k][1] == 255 && pixelData[i*img.getWidth()+k][2] == 255){
+					
+					int r = pixelData[i*width+k][0];
+					int g = pixelData[i*width+k][1];
+					int b = pixelData[i*width+k][2];
+					int absRG = Math.abs(r-g);
+					int absRB = Math.abs(r-b);
+					int absGB = Math.abs(g-b);
+					
+					
+					if((r > 70 && absRG > 40 && absRB > 40) || (r < 51 && g < 51 && b < 51)){
+						System.out.print(" ");
+					}
+					
+					if(r > 50 && (g == b) && (g == r)){
+						System.out.print("B");
+					}
+					
+					/*if((r > g) && (r > b)){
+						System.out.print("B");
+					}*/
+					
+					
+					
+					
+					/*if(pixelData[i*img.getWidth()+k][0] == 255 && pixelData[i*img.getWidth()+k][1] == 255 && pixelData[i*img.getWidth()+k][2] == 255){
 						System.out.print("B");
 					}
 					if(pixelData[i*img.getWidth()+k][0] == 0 && pixelData[i*img.getWidth()+k][1] == 0 && pixelData[i*img.getWidth()+k][2] == 0){
 						System.out.print(" ");
-					}
+					}*/
 				}
 				System.out.println(" ");
 			}
@@ -590,7 +632,7 @@ public class Map
 		System.out.println("done man !");
 		
 		//boucle d'affichage en console de la map d'influence des zones
-		for(int i=0; i<height; i++){
+		/*for(int i=0; i<height; i++){
 			for(int k=0; k<width; k++){
 				if(zonesInfluenceMap[i*width+k] < 0 || (zonesInfluenceMap[i*width+k] > 9 && zonesInfluenceMap[i*width+k] < 100)){
 					System.out.print(zonesInfluenceMap[i*width+k]+"  ");
@@ -605,7 +647,7 @@ public class Map
 			System.out.println(" ");
 		}
 		System.out.println(" ");
-		
+		*/
 	}
 	
 	public void save(String fichier)
