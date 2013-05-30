@@ -101,8 +101,8 @@ public class Map
 				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
-				if(j == 2){
-				/*boucle d'affichage de la map de PathFining dans la console*/
+				/*if(j == 2){
+				//boucle d'affichage de la map de PathFining dans la console
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
 						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
@@ -118,10 +118,11 @@ public class Map
 					System.out.println(" ");
 				}
 				System.out.println(" ");
-				}
+				}*/
 				
 				zones.add(newZone);
 			}
+			
 			br.close(); 
 		} 
 		catch (Exception e) { 
@@ -180,8 +181,8 @@ public class Map
 				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
-				if(j == 2){
-				/*boucle d'affichage de la map de PathFining dans la console*/
+				/*if(j == 2){
+				//boucle d'affichage de la map de PathFining dans la console
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
 						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
@@ -198,9 +199,9 @@ public class Map
 				}
 				System.out.println(" ");
 				}
-				
+				*/
 				zones.add(newZone);
-				System.out.println("zone créée ");
+				//System.out.println("zone créée ");
 			}
 			setZonesInfluence();
 			br.close(); 
@@ -356,7 +357,7 @@ public class Map
 		    }
 		    pathTable.add(currentPos);
 		    pos = currentPos;
-		    System.out.println(dist);
+		   // System.out.println(dist);
 
 		}
 		
@@ -459,7 +460,7 @@ public class Map
     	    }
     	  }
 		
-		System.out.println("done man !");
+		/*System.out.println("done man !");
 		
 		//boucle d'affichage en console de la map d'influence des zones
 		for(int i=0; i<height; i++){
@@ -476,7 +477,7 @@ public class Map
 			}
 			System.out.println(" ");
 		}
-		System.out.println(" ");
+		System.out.println(" ");*/
 		
 	}
 	

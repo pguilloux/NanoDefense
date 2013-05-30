@@ -13,6 +13,7 @@ class Dispatcher
 	ArrayList<Zone> zones;//toutes les zones de la map
 	ArrayList<Tower> towers;
 	ArrayList<Agent> agents;
+	ArrayList<Bullet> bullets;
 	ArrayList<Thread> threads;
 	GameEngine engine;
 	private DrawPanel pan;
@@ -25,6 +26,7 @@ class Dispatcher
     	towers= new ArrayList<Tower>();
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
+    	bullets= new ArrayList<Bullet>();
     	map=new Map(zones,towers);
     	map.build("map.txt");
     	pan=new DrawPanel(zones,agents,towers,map);
@@ -32,7 +34,7 @@ class Dispatcher
     	players.add(new Player(100,zones,towers,agents,map));
 
     	this.pan=buildContentPane();
-    	Thread t = new Thread(new GameEngine(zones,agents,pan, map));
+    	Thread t = new Thread(new GameEngine(zones,agents,towers, bullets,pan, map));
     	threads= new ArrayList<Thread>();
 		
 		for(int i=0; i<players.size();i++)
@@ -58,9 +60,14 @@ class Dispatcher
 		
 		pan.setLayout(null);
 		
+		towers.add(new Tower(200, 400, 200, agents, bullets, 2, 40));
+		
+		
+		
 		for(int i=0; i<zones.size(); i++)
 		{
-			//zones.get(i).addActionListener(this);			
+			//zones.get(i).addActionListener(this);	
+			
 			
 			zones.get(i).place();	
 	
@@ -71,7 +78,23 @@ class Dispatcher
 			//zones.get(i).setBackground(Color.WHITE);
 			
 			pan.add(zones.get(i));
-		}		
+		}
+		
+		for(int i=0; i<towers.size(); i++)
+		{
+			//zones.get(i).addActionListener(this);	
+			
+			
+			towers.get(i).place();	
+	
+			//zones.get(i).set();
+			
+			towers.get(i).setColor();
+			
+			//zones.get(i).setBackground(Color.WHITE);
+			
+			pan.add(towers.get(i));
+		}	
 		return pan;
 	}
 	
