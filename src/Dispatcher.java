@@ -27,8 +27,9 @@ class Dispatcher
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
     	bullets= new ArrayList<Bullet>();
-    	map=new Map(zones,towers);
+    	map=new Map(zones,towers, agents, bullets);
     	map.build("map.txt");
+    	
     	pan=new DrawPanel(zones,agents,towers,map);
     	players=new ArrayList<Player>();
     	players.add(new Player(100,zones,towers,agents,map));
@@ -59,11 +60,6 @@ class Dispatcher
 	{	
 		
 		pan.setLayout(null);
-		
-		towers.add(new Tower(200, 400, 150, agents, bullets, 2, 40));
-		towers.add(new Tower(300, 200, 80, agents, bullets, 2, 30));
-		
-		
 		
 		for(int i=0; i<zones.size(); i++)
 		{
