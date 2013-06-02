@@ -66,7 +66,7 @@ public class Tower extends RoundedCornerButton
 	}
 	public void shoot()
 	{
-		if(haveCible)
+		if(haveCible && cible.getMove())
 			if(cible.getx()>x-influence && cible.getx()<x+influence && cible.gety()>y-influence && cible.gety()<y+influence)
 			if(cadence>20)
 			{

@@ -44,7 +44,7 @@ public class Bullet extends RoundButton{
 		this.y=tower_start.gety();
 
 		this.move=true;
-		this.speed = 10;
+		this.speed = 20;
 
 	}
 	
@@ -62,7 +62,7 @@ public class Bullet extends RoundButton{
 				float dy=agent_stop.gety()-this.y;
 				float absx=(dx<0)?-dx:dx;
 				float absy=(dy<0)?-dy:dy;
-				if(absx<1 && absy<=1)
+				if(absx<5 && absy<=5)
 				{
 					
 					agent_stop.looseLife(1);

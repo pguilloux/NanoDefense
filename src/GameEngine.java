@@ -14,6 +14,7 @@ class GameEngine extends JFrame implements Runnable
 	ArrayList<Tower> towers;
 	private ArrayList<Agent> agents;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Player> players;
 	private DrawPanel pan;
 	private Map map;
 	
@@ -31,11 +32,12 @@ class GameEngine extends JFrame implements Runnable
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, ArrayList<Tower> towers, ArrayList<Bullet> bullets,DrawPanel pan, Map map)
+	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, ArrayList<Tower> towers,ArrayList<Player> players, ArrayList<Bullet> bullets,DrawPanel pan, Map map)
 	  {		  
         this.zones=zones;
         this.agents=agents;
         this.towers=towers;
+        this.players=players;
         this.bullets=bullets;
         this.pan=pan;
         this.map=map;
@@ -94,7 +96,11 @@ class GameEngine extends JFrame implements Runnable
 	    	if(!towers.isEmpty())
 	    	for(int k=0; k<towers.size(); k++)
 				towers.get(k).shoot(); 
+	    	if(!players.isEmpty())
+	    	for(int k=0; k<players.size(); k++)				
+	    		players.get(k).printMoney();
 	    	repaint();
+	    	
 	      try {
 	        Thread.sleep(25);
 	      } catch (InterruptedException e) {

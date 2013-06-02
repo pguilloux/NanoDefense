@@ -9,6 +9,7 @@ public class Player implements Runnable, ActionListener
 	private ArrayList<Tower> towers;
 	private ArrayList<Agent> agents;
 	private Map map;
+	private RoundedCornerButton money_print;
 	
 	/* ----------------------------- */
 	/*   Déclaration des méthodes    */
@@ -16,6 +17,7 @@ public class Player implements Runnable, ActionListener
 	
 	public Player() {
 		this.money = 0;
+		this.money_print=new RoundedCornerButton();
 		this.zones = new ArrayList<Zone>();
 		this.towers = new ArrayList<Tower>();
 		this.agents= new ArrayList<Agent>();
@@ -28,6 +30,7 @@ public class Player implements Runnable, ActionListener
 		this.towers = TOWERLIST;
 		this.agents = AGENTLIST;
 		this.map=MAP;
+		this.money_print=new RoundedCornerButton();
 		for(int i=0; i<zones.size(); i++)
 			zones.get(i).addActionListener(this);
 		
@@ -48,6 +51,9 @@ public class Player implements Runnable, ActionListener
 	public ArrayList<Tower> getTowerList() {
 		return this.towers;
 	}
+	public RoundedCornerButton getPrintMoney() {
+		return this.money_print;
+	}
 	
 	/* ----------------------------- */
 	/*    Déclaration des SETERS     */
@@ -66,6 +72,11 @@ public class Player implements Runnable, ActionListener
 	}
 	
 	/*******FUNCTIONS*********/
+	public void printMoney()
+	{	
+		money_print.setText(String.valueOf(money));
+		money_print.setBounds(0,0, 100, 20);			
+	}
 	
 	public void run()
 	{

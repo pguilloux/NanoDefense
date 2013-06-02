@@ -34,7 +34,7 @@ class Dispatcher
     	players.add(new Player(100,zones,towers,agents,map));
 
     	this.pan=buildContentPane();
-    	Thread t = new Thread(new GameEngine(zones,agents,towers, bullets,pan, map));
+    	Thread t = new Thread(new GameEngine(zones,agents,towers, players,bullets,pan, map));
     	threads= new ArrayList<Thread>();
 		
 		for(int i=0; i<players.size();i++)
@@ -60,7 +60,8 @@ class Dispatcher
 		
 		pan.setLayout(null);
 		
-		towers.add(new Tower(200, 400, 200, agents, bullets, 2, 40));
+		towers.add(new Tower(200, 400, 150, agents, bullets, 2, 40));
+		towers.add(new Tower(300, 200, 80, agents, bullets, 2, 30));
 		
 		
 		
@@ -94,6 +95,21 @@ class Dispatcher
 			//zones.get(i).setBackground(Color.WHITE);
 			
 			pan.add(towers.get(i));
+		}
+		for(int i=0; i<players.size(); i++)
+		{
+			//zones.get(i).addActionListener(this);	
+			
+			
+			players.get(i).printMoney();	
+	
+			//zones.get(i).set();
+			
+			//towers.get(i).setColor();
+			
+			players.get(i).getPrintMoney().setBackground(Color.WHITE);
+			
+			pan.add(players.get(i).getPrintMoney());
 		}	
 		return pan;
 	}
