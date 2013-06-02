@@ -26,8 +26,8 @@ public class Zone extends RoundButton{
 		this.x=x;
 		this.y=y;
 		this.taille=taille;
-		this.progress=1000/taille;
-		this.nb_max_agents=2*taille;
+		this.progress=100/taille;
+		this.nb_max_agents=taille/10;
 		this.proprio=proprio;	
 		this.nb_agents=nb_agents;
 		mod=new boolean[4];
@@ -40,8 +40,8 @@ public class Zone extends RoundButton{
 		this.taille=taille;
 		this.proprio=0;	
 		this.nb_agents=-taille;
-		this.nb_max_agents=2*taille;
-		this.progress=1000/taille;
+		this.nb_max_agents=taille/10;
+		this.progress=100/taille;
 		mod=new boolean[4];
 	}
 	
@@ -50,6 +50,7 @@ public class Zone extends RoundButton{
 	{ 
 		return this.zoneId; 
 	}
+	
 	public float getx()
 	{ 
 		return this.x; 
@@ -186,6 +187,8 @@ public class Zone extends RoundButton{
 		this.setColor();
 		this.setText(String.valueOf(nb_agents));
 	}
+	
+	
 
 	public void sendAgents(int nb, Zone destination){}
 	//private void activeTower(int nb_agents, Tour tour);

@@ -58,6 +58,24 @@ class GameEngine extends JFrame implements Runnable
         this.pan=pan;
         this.setContentPane(pan);
 	  }
+	  public Zone getZone(int id)
+	  {
+		  if(!zones.isEmpty())	  
+			for(int i=0; i<zones.size(); i++)
+			{				
+				if(zones.get(i).getZoneId()==id)
+					return zones.get(i);				
+			}
+		return null;
+	  }
+	  public void setTowerProprio()
+	  {
+		  if(!towers.isEmpty())
+			for(int i=0; i<towers.size(); i++)
+			{
+				towers.get(i).setProprio(getZone(towers.get(i).getZone()).getProprio());
+			}
+	  }
 	 
 	  public void run()
 	  {
@@ -91,11 +109,15 @@ class GameEngine extends JFrame implements Runnable
 						pan.add(bullets.get(i));
 					}
 				}
+	    	setTowerProprio();
 	    	for(int k=0; k<zones.size(); k++)
 				zones.get(k).set(); 
 	    	if(!towers.isEmpty())
 	    	for(int k=0; k<towers.size(); k++)
+	    	{
+	    		towers.get(k).setColor();
 				towers.get(k).shoot(); 
+	    	}
 	    	if(!players.isEmpty())
 	    	for(int k=0; k<players.size(); k++)				
 	    		players.get(k).printMoney();

@@ -10,7 +10,7 @@ public class Tower extends RoundedCornerButton
 	private int price;
 	private int taille;
 	private float influence;
-	private Zone zone;
+	private int zone;
 	private int proprio;
 	private int cadence;
 	private Agent cible;
@@ -31,14 +31,26 @@ public class Tower extends RoundedCornerButton
 		return this.proprio; 
 	}
 	
-	public Tower(float x, float y, float influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets, int proprio, int taille)
+	public void setProprio(int proprio)
+	{ 
+		this.proprio=proprio; 
+	}
+	public void setZone(int zone)
+	{ 
+		this.zone=zone; 
+	}
+	public int getZone()
+	{ 
+		return zone; 
+	}
+	
+	public Tower(float x, float y, float influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets, int taille)
 	{
 		this.x=x;
 		this.y=y;
 		this.influence=influence;
 		this.agents=agents;
 		this.bullets=bullets;
-		this.proprio=proprio;
 		this.taille=taille;
 		cadence=0;
 		haveCible=false;
@@ -63,6 +75,10 @@ public class Tower extends RoundedCornerButton
 	public void place()
 	{		
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
+	}
+	public void setProprio()
+	{
+		
 	}
 	public void shoot()
 	{

@@ -23,10 +23,13 @@ public class Map
 	private int height;	
 	private int case_cote;
 	private int nb_zones;
+	private int nb_towers;
 	private int[] table;
 	private int[] zonesInfluenceMap;
 	private ArrayList<Zone>zones;
 	private ArrayList<Tower>towers;
+	private ArrayList<Agent>agents;
+	private ArrayList<Bullet>bullets;
 	private LinkedList<PathCaseValue> pathTableQueue;
 	
 	/******GET&SET******/
@@ -53,9 +56,12 @@ public class Map
 	}
 
 	
-	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers)
+	public Map(ArrayList<Zone>zones,ArrayList<Tower>towers, ArrayList<Agent> agents, ArrayList<Bullet> bullets)
 	{		
 		this.zones=zones;
+		this.towers=towers;
+		this.agents=agents;
+		this.bullets=bullets;
 		this.case_cote=10;
 		table=new int[width*height];
 		zonesInfluenceMap=new int[width*height];
@@ -67,6 +73,7 @@ public class Map
 	public Map(String fichier)
 	{		
 		zones=new ArrayList<Zone>();
+		towers=new ArrayList<Tower>();
 		case_cote=10;
 		try 
 		{ 
@@ -126,6 +133,20 @@ public class Map
 				}*/
 				
 				zones.add(newZone);
+			}
+			ligne = br.readLine();
+			val = new StringTokenizer(ligne," ");
+			nb_towers = Integer.parseInt(val.nextToken());
+			for(int j=0;j<nb_towers;j++)	
+			{
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				int x = Integer.parseInt(val.nextToken());
+				int y = Integer.parseInt(val.nextToken());
+				int influence = Integer.parseInt(val.nextToken());
+				int taille = Integer.parseInt(val.nextToken());
+				Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);				
+				towers.add(newTower);
 			}
 			
 			br.close(); 
@@ -234,6 +255,7 @@ public class Map
 				}
 
 			else{
+				
 				InputStream ips = new FileInputStream(fichier); 
 				InputStreamReader ipsr = new InputStreamReader(ips); 
 				BufferedReader br = new BufferedReader(ipsr); 
@@ -297,14 +319,30 @@ public class Map
 					zones.add(newZone);
 					System.out.println("zone créée ");
 				}
+				
 				setZonesInfluence();
-				br.close(); 
-			}} 
-			catch (Exception e) { 
-				System.out.println(e.toString()); 
-			}	
-		
+				ligne = br.readLine();
+				val = new StringTokenizer(ligne," ");
+				nb_towers = Integer.parseInt(val.nextToken());
+				for(int j=0;j<nb_towers;j++)	
+				{
+					ligne = br.readLine();
+					val = new StringTokenizer(ligne," ");
+					int x = Integer.parseInt(val.nextToken());
+					int y = Integer.parseInt(val.nextToken());
+					int influence = Integer.parseInt(val.nextToken());
+					int taille = Integer.parseInt(val.nextToken());
+					Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
+					towers.add(newTower);
+				}
 
+				br.close();
+				
+			}
+		}
+		catch (Exception e) {
+		System.out.println(e.toString());
+		}
 	}
 	
 	
@@ -362,7 +400,6 @@ public class Map
 				}
 			}
 
-
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
@@ -381,6 +418,8 @@ public class Map
 
 		//System.out.println("rgb: " + rgb[0] + " " + rgb[1] + " " + rgb[2]);
 		return rgb;
+
+			
 	}
 	
 	public void buildZonePathMap(Zone zone){
@@ -651,6 +690,15 @@ public class Map
 		}
 		System.out.println(" ");*/
 		
+	}
+	public void setTowerZone()
+	{
+		if(!towers.isEmpty())
+		for(int i=0; i<towers.size(); i++)
+		{
+			towers.get(i).setZone(zonesInfluenceMap[(int)(towers.get(i).getx()+towers.get(i).gety()*width)/10]);
+			System.out.println(towers.get(i).getx()+" "+towers.get(i).gety()+" "+towers.get(i).getZone());
+		}
 	}
 	
 	public void save(String fichier)
