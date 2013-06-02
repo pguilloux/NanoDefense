@@ -22,6 +22,8 @@ public class Agent extends RoundButton{
 	private float dy;
 	private float mvtLength;
 	
+	private int life;
+	
 	/*****GET&SET******/
 	
 	public float getx()
@@ -40,7 +42,10 @@ public class Agent extends RoundButton{
 	{ 
 		return this.proprio; 
 	}
-	
+	public void looseLife(int nb)
+	{
+		life-=nb;
+	}
 	/******CONSTRUCTOR*******/
 	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
 	{
@@ -53,13 +58,11 @@ public class Agent extends RoundButton{
 		this.map = map;
 		this.move=true;
 		this.speed = 3;
+		this.life=3;
 		
 		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
 		Vector<Integer> vect = path.pollFirst();
 
-		for(int i = 0; i < path.size(); i++){
-			System.out.print(path.get(i)+" ");
-		}
 	}
 	
 	/********FUNCTIONS*******/
@@ -88,6 +91,8 @@ public class Agent extends RoundButton{
 		
 		if(move)
 		{
+			if(life<=0)
+				move=false;
 			float absx1, absy1;
 			
 			nextX = path.getFirst().elementAt(0);
@@ -127,7 +132,7 @@ public class Agent extends RoundButton{
 			
 			if(absx<3 && absy<=3 && path.getFirst().elementAt(0) == path.getLast().elementAt(0) && path.getFirst().elementAt(1) == path.getLast().elementAt(1))
 			{		
-				System.out.println("titi");
+				
 				if(zone_stop.getProprio()==this.getProprio())
 				{
 					zone_stop.setNbAgents(1);

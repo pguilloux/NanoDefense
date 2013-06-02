@@ -106,8 +106,8 @@ public class Map
 				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
 				newZone.buildPathMap(width, height);
 				buildZonePathMap(newZone);
-				if(j == 2){
-				/*boucle d'affichage de la map de PathFining dans la console*/
+				/*if(j == 2){
+				//boucle d'affichage de la map de PathFining dans la console
 				for(int i=0; i<height; i++){
 					for(int k=0; k<width; k++){
 						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
@@ -123,10 +123,11 @@ public class Map
 					System.out.println(" ");
 				}
 				System.out.println(" ");
-				}
+				}*/
 				
 				zones.add(newZone);
 			}
+			
 			br.close(); 
 		} 
 		catch (Exception e) { 
@@ -144,6 +145,11 @@ public class Map
 		for(int j=0;j<height*width;j++)	
 		table[j] = rand.nextInt(2);
 	}
+	
+	
+	
+	
+	
 	public void build(String fichier)
 	{		
 		case_cote=10;
@@ -251,6 +257,7 @@ public class Map
 				}	
 				ligne = br.readLine();
 				val = new StringTokenizer(ligne," ");
+
 				nb_zones = Integer.parseInt(val.nextToken());
 				
 				
@@ -260,33 +267,33 @@ public class Map
 					ligne = br.readLine();
 					val = new StringTokenizer(ligne," ");
 					
-					int x = Integer.parseInt(val.nextToken());
-					int y = Integer.parseInt(val.nextToken());
-					int taille = Integer.parseInt(val.nextToken());
-					int proprio = Integer.parseInt(val.nextToken());
-					int nb = Integer.parseInt(val.nextToken());	
-					Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
-					newZone.buildPathMap(width, height);
-					buildZonePathMap(newZone);
-					if(j == 2){
-					/*boucle d'affichage de la map de PathFining dans la console*/
-					for(int i=0; i<height; i++){
-						for(int k=0; k<width; k++){
-							if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
-								System.out.print(newZone.getPathMap()[i*width+k]+"  ");
-							}
-							if(newZone.getPathMap()[i*width+k] > 99){
-								System.out.print(newZone.getPathMap()[i*width+k]+" ");
-							}
-							if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
-								System.out.print(newZone.getPathMap()[i*width+k]+"   ");
-							}
+					
+				int x = Integer.parseInt(val.nextToken());
+				int y = Integer.parseInt(val.nextToken());
+				int taille = Integer.parseInt(val.nextToken());
+				int proprio = Integer.parseInt(val.nextToken());
+				int nb = Integer.parseInt(val.nextToken());	
+				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
+				newZone.buildPathMap(width, height);
+				buildZonePathMap(newZone);
+				/*if(j == 2){
+				//boucle d'affichage de la map de PathFining dans la console
+				for(int i=0; i<height; i++){
+					for(int k=0; k<width; k++){
+						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+						}
+						if(newZone.getPathMap()[i*width+k] > 99){
+							System.out.print(newZone.getPathMap()[i*width+k]+" ");
+						}
+						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
 						}
 						System.out.println(" ");
 					}
 					System.out.println(" ");
 					}
-					
+					*/
 					zones.add(newZone);
 					System.out.println("zone créée ");
 				}
@@ -346,9 +353,6 @@ public class Map
 						System.out.print("B");
 					}*/
 					
-					
-					
-					
 					/*if(pixelData[i*img.getWidth()+k][0] == 255 && pixelData[i*img.getWidth()+k][1] == 255 && pixelData[i*img.getWidth()+k][2] == 255){
 						System.out.print("B");
 					}
@@ -356,7 +360,6 @@ public class Map
 						System.out.print(" ");
 					}*/
 				}
-				System.out.println(" ");
 			}
 
 
@@ -526,7 +529,7 @@ public class Map
 		    }
 		    pathTable.add(currentPos);
 		    pos = currentPos;
-		    System.out.println(dist);
+		   // System.out.println(dist);
 
 		}
 		
@@ -629,7 +632,7 @@ public class Map
     	    }
     	  }
 		
-		System.out.println("done man !");
+		/*System.out.println("done man !");
 		
 		//boucle d'affichage en console de la map d'influence des zones
 		/*for(int i=0; i<height; i++){
@@ -646,8 +649,8 @@ public class Map
 			}
 			System.out.println(" ");
 		}
-		System.out.println(" ");
-		*/
+		System.out.println(" ");*/
+		
 	}
 	
 	public void save(String fichier)

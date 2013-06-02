@@ -13,6 +13,8 @@ class GameEngine extends JFrame implements Runnable
 	private ArrayList<Zone> zones;//toutes les zones de la map
 	ArrayList<Tower> towers;
 	private ArrayList<Agent> agents;
+	private ArrayList<Bullet> bullets;
+	private ArrayList<Player> players;
 	private DrawPanel pan;
 	private Map map;
 	
@@ -22,16 +24,21 @@ class GameEngine extends JFrame implements Runnable
 	 {  
 		zones=new ArrayList<Zone>();
 		agents=new ArrayList<Agent>();
+		towers=new ArrayList<Tower>();
+		bullets=new ArrayList<Bullet>();
 		this.setTitle("Animation");
 		this.setSize(800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, DrawPanel pan, Map map)
+	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, ArrayList<Tower> towers,ArrayList<Player> players, ArrayList<Bullet> bullets,DrawPanel pan, Map map)
 	  {		  
         this.zones=zones;
         this.agents=agents;
+        this.towers=towers;
+        this.players=players;
+        this.bullets=bullets;
         this.pan=pan;
         this.map=map;
 	    this.setTitle("Animation");
@@ -70,9 +77,30 @@ class GameEngine extends JFrame implements Runnable
 						pan.add(agents.get(i));
 					}
 				}
+	    	if(!bullets.isEmpty())
+				for(int i=0; i<bullets.size(); i++)
+				{
+					pan.remove(bullets.get(i));
+					//agents.get(i).setText(String.valueOf(nb_agents));
+					if(!bullets.get(i).getMove())
+						bullets.remove(bullets.get(i));
+					
+					else
+					{
+						bullets.get(i).move();							
+						pan.add(bullets.get(i));
+					}
+				}
 	    	for(int k=0; k<zones.size(); k++)
 				zones.get(k).set(); 
+	    	if(!towers.isEmpty())
+	    	for(int k=0; k<towers.size(); k++)
+				towers.get(k).shoot(); 
+	    	if(!players.isEmpty())
+	    	for(int k=0; k<players.size(); k++)				
+	    		players.get(k).printMoney();
 	    	repaint();
+	    	
 	      try {
 	        Thread.sleep(25);
 	      } catch (InterruptedException e) {

@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-class Dispatcher implements ActionListener
+class Dispatcher
 {
 	/*****VARIABLES******/
 	ArrayList<Player> players;//contenant également les IA
 	ArrayList<Zone> zones;//toutes les zones de la map
 	ArrayList<Tower> towers;
 	ArrayList<Agent> agents;
+	ArrayList<Bullet> bullets;
+	ArrayList<Thread> threads;
 	GameEngine engine;
 	private DrawPanel pan;
 	private Map map;
@@ -24,15 +26,31 @@ class Dispatcher implements ActionListener
     	towers= new ArrayList<Tower>();
     	zones= new ArrayList<Zone>();
     	agents= new ArrayList<Agent>();
+    	bullets= new ArrayList<Bullet>();
     	map=new Map(zones,towers);
     	map.build("map2.jpg");
     	//map.buildFromImage("map2.jpg");
     	pan=new DrawPanel(zones,agents,towers,map);
+    	players=new ArrayList<Player>();
+    	players.add(new Player(100,zones,towers,agents,map));
 
     	this.pan=buildContentPane();
-    	Thread t = new Thread(new GameEngine(zones,agents,pan, map));
+    	Thread t = new Thread(new GameEngine(zones,agents,towers, players,bullets,pan, map));
+    	threads= new ArrayList<Thread>();
+		
+		for(int i=0; i<players.size();i++)
+		{
+			threads.add(new Thread(players.get(i)));
+		}
+    	
 		t.start(); 
-
+		
+		
+		for(int i=0; i<players.size();i++)
+		{
+			threads.get(i).start();
+		}
+			
     	
     }
 
@@ -43,9 +61,15 @@ class Dispatcher implements ActionListener
 		
 		pan.setLayout(null);
 		
+		towers.add(new Tower(200, 400, 150, agents, bullets, 2, 40));
+		towers.add(new Tower(300, 200, 80, agents, bullets, 2, 30));
+		
+		
+		
 		for(int i=0; i<zones.size(); i++)
 		{
-			zones.get(i).addActionListener(this);			
+			//zones.get(i).addActionListener(this);	
+			
 			
 			zones.get(i).place();	
 	
@@ -56,54 +80,39 @@ class Dispatcher implements ActionListener
 			//zones.get(i).setBackground(Color.WHITE);
 			
 			pan.add(zones.get(i));
-		}		
+		}
+		
+		for(int i=0; i<towers.size(); i++)
+		{
+			//zones.get(i).addActionListener(this);	
+			
+			
+			towers.get(i).place();	
+	
+			//zones.get(i).set();
+			
+			towers.get(i).setColor();
+			
+			//zones.get(i).setBackground(Color.WHITE);
+			
+			pan.add(towers.get(i));
+		}
+		for(int i=0; i<players.size(); i++)
+		{
+			//zones.get(i).addActionListener(this);	
+			
+			
+			players.get(i).printMoney();	
+	
+			//zones.get(i).set();
+			
+			//towers.get(i).setColor();
+			
+			players.get(i).getPrintMoney().setBackground(Color.WHITE);
+			
+			pan.add(players.get(i).getPrintMoney());
+		}	
 		return pan;
 	}
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
- 
-		for(int i=0; i<zones.size(); i++)
-		{
-			if(source == zones.get(i))
-			{
-				if(zones.get(i).getActive())
-				{
-					zones.get(i).setActive(false);
-					//zones.get(i).setBackground(Color.WHITE);
-				}
-				else 
-				{	
-					int zap=0;//zones actives en possession
-					int zae=0;//zones actives ennemies
-					for(int j=0; j<zones.size(); j++)
-					{
-						if(j!=i)
-						{
-							if(zones.get(j).getActive())
-							{
-								if(zones.get(i).getProprio()!=zones.get(j).getProprio())
-								{	
-									zae++;
-								}
-								else if(zones.get(i).getProprio()==zones.get(j).getProprio())
-								{
-									zap++;
-								}
-								if(zones.get(j).getNbAgents()>1 && zones.get(i).getProprio()!=zones.get(j).getProprio())
-								{	
-									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i), map));
-								}
-							
-							}
-						
-						}
-					}
-					if(zap>=0 && zae==0 && zones.get(i).getProprio()!=0)
-					{
-						zones.get(i).setActive(true);
-					}
-				}
-			}			
-		}
-	}	
+	
 }
