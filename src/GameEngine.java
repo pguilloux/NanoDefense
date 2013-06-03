@@ -76,6 +76,37 @@ class GameEngine extends JFrame implements Runnable
 				towers.get(i).setProprio(getZone(towers.get(i).getZone()).getProprio());
 			}
 	  }
+	  public void setTowerActive()
+	  {
+		  if(!towers.isEmpty())
+			for(int i=0; i<towers.size(); i++)
+			{
+				towers.get(i).setActive(getZone(towers.get(i).getZone()).getActive());
+			}
+	  }
+	  public void setZoneIHM()
+	  {
+		  if(!zones.isEmpty())
+				for(int i=0; i<zones.size(); i++)
+				{
+					for(int k=0; k<4; k++)
+					{
+						pan.remove(zones.get(i).getGetMod(k));
+						pan.remove(zones.get(i).getActiveMod(k));
+					}
+					if(zones.get(i).getActive())
+					{
+						for(int k=0; k<4; k++)
+						{
+							if(zones.get(i).getMod(k)==false)
+								pan.add(zones.get(i).getGetMod(k));
+							else
+								pan.add(zones.get(i).getActiveMod(k));
+						}
+							
+					}
+				}
+	  }
 	 
 	  public void run()
 	  {
@@ -110,6 +141,8 @@ class GameEngine extends JFrame implements Runnable
 					}
 				}
 	    	setTowerProprio();
+	    	setTowerActive();
+	    	setZoneIHM();
 	    	for(int k=0; k<zones.size(); k++)
 				zones.get(k).set(); 
 	    	if(!towers.isEmpty())
