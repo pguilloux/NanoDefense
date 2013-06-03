@@ -35,10 +35,16 @@ public class Player implements Runnable, ActionListener
 		{
 			zones.get(i).addActionListener(this);
 			for(int k=0; k<4; k++)
-			{
-				
-					zones.get(i).getGetMod(k).addActionListener(this);
-				
+			{				
+				zones.get(i).getGetMod(k).addActionListener(this);				
+			}
+		}
+		for(int i=0; i<towers.size(); i++)
+		{
+			towers.get(i).getUpLevel().addActionListener(this);
+			for(int k=0; k<5; k++)
+			{				
+				towers.get(i).getActiveType(k).addActionListener(this);				
 			}
 		}
 		
@@ -92,7 +98,22 @@ public class Player implements Runnable, ActionListener
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
- 
+		
+		for(int i=0; i<towers.size(); i++)
+		{	
+			if(source==towers.get(i).getUpLevel())
+				towers.get(i).upLevel();
+					
+			for(int k=0; k<5; k++)
+			{
+				if(source==towers.get(i).getActiveType(k))
+				{
+					towers.get(i).setType(k);
+					towers.get(i).upLevel();
+					//System.out.println(zones.get(i).getMod(k));
+				}
+			}
+		}
 		for(int i=0; i<zones.size(); i++)
 		{
 			

@@ -32,8 +32,8 @@ class GameEngine extends JFrame implements Runnable
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	  public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, ArrayList<Tower> towers,ArrayList<Player> players, ArrayList<Bullet> bullets,DrawPanel pan, Map map)
-	  {		  
+	public GameEngine(ArrayList<Zone> zones, ArrayList<Agent> agents, ArrayList<Tower> towers,ArrayList<Player> players, ArrayList<Bullet> bullets,DrawPanel pan, Map map)
+	{		  
         this.zones=zones;
         this.agents=agents;
         this.towers=towers;
@@ -47,7 +47,7 @@ class GameEngine extends JFrame implements Runnable
 	    this.setLocationRelativeTo(null);
 	    this.setContentPane(pan);
 	    this.setVisible(true);
-	  }
+	}
 	 
 	  /******FUNCTIONS******/
 	  
@@ -107,6 +107,28 @@ class GameEngine extends JFrame implements Runnable
 					}
 				}
 	  }
+	  public void setTowerIHM()
+	  {
+		  if(!towers.isEmpty())
+				for(int i=0; i<towers.size(); i++)
+				{
+					for(int k=0; k<5; k++)
+					{
+						pan.remove(towers.get(i).getActiveType(k));
+						pan.remove(towers.get(i).getUpLevel());
+					}
+					if(towers.get(i).getActive())
+					{
+						if(towers.get(i).getLevel()==0)
+						for(int k=0; k<5; k++)
+						{
+							pan.add(towers.get(i).getActiveType(k));
+						}
+						else
+							pan.add(towers.get(i).getUpLevel());	
+					}
+				}
+	  }
 	 
 	  public void run()
 	  {
@@ -143,6 +165,7 @@ class GameEngine extends JFrame implements Runnable
 	    	setTowerProprio();
 	    	setTowerActive();
 	    	setZoneIHM();
+	    	setTowerIHM();
 	    	for(int k=0; k<zones.size(); k++)
 				zones.get(k).set(); 
 	    	if(!towers.isEmpty())

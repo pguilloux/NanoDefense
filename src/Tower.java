@@ -1,9 +1,13 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+
 public class Tower extends RoundedCornerButton
 {
 	private int type;
+	private JButton up_level;
+	private JButton[] active_type;
 	private int level;
 	private float x;
 	private float y;
@@ -52,6 +56,26 @@ public class Tower extends RoundedCornerButton
 	{ 
 		return this.active; 
 	}
+	public JButton getActiveType(int k)
+	{ 
+		return active_type[k]; 
+	}
+	public JButton getUpLevel()
+	{ 
+		return up_level; 
+	}
+	public int getLevel()
+	{ 
+		return level; 
+	}
+	public void upLevel()
+	{ 
+		++level; 
+	}
+	public void setType(int k)
+	{ 
+		type=k; 
+	}
 	
 	public Tower(float x, float y, float influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets, int taille)
 	{
@@ -63,6 +87,13 @@ public class Tower extends RoundedCornerButton
 		this.taille=taille;
 		cadence=0;
 		haveCible=false;
+		level=0;
+		up_level=new JButton();
+		active_type= new JButton[5];
+		for(int i=0;i<5;i++)
+		{
+			active_type[i]=new JButton();
+		}
 	}
 	
     public void setColor()
@@ -102,7 +133,12 @@ public class Tower extends RoundedCornerButton
     
 	public void place()
 	{		
-		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
+		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);
+		up_level.setBounds((int)this.getx()+taille/2-10,(int)this.gety()-20, 20, 20);
+		for(int i=0;i<5;i++)
+		{
+			active_type[i].setBounds((int)this.getx()+10*i,(int)this.gety()-10, 10, 10);
+		}
 	}
 	public void setProprio()
 	{
