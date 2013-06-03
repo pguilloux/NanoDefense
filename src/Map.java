@@ -289,35 +289,34 @@ public class Map
 					ligne = br.readLine();
 					val = new StringTokenizer(ligne," ");
 					
-					
-				int x = Integer.parseInt(val.nextToken());
-				int y = Integer.parseInt(val.nextToken());
-				int taille = Integer.parseInt(val.nextToken());
-				int proprio = Integer.parseInt(val.nextToken());
-				int nb = Integer.parseInt(val.nextToken());	
-				Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
-				newZone.buildPathMap(width, height);
-				buildZonePathMap(newZone);
-				/*if(j == 2){
-				//boucle d'affichage de la map de PathFining dans la console
-				for(int i=0; i<height; i++){
-					for(int k=0; k<width; k++){
-						if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
-							System.out.print(newZone.getPathMap()[i*width+k]+"  ");
-						}
-						if(newZone.getPathMap()[i*width+k] > 99){
-							System.out.print(newZone.getPathMap()[i*width+k]+" ");
-						}
-						if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
-							System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+					int x = Integer.parseInt(val.nextToken());
+					int y = Integer.parseInt(val.nextToken());
+					int taille = Integer.parseInt(val.nextToken());
+					int proprio = Integer.parseInt(val.nextToken());
+					int nb = Integer.parseInt(val.nextToken());	
+					Zone newZone = new Zone(j+1, x,y,taille,proprio,nb);
+					newZone.buildPathMap(width, height);
+					buildZonePathMap(newZone);
+					/*if(j == 2){
+					//boucle d'affichage de la map de PathFining dans la console
+					for(int i=0; i<height; i++){
+						for(int k=0; k<width; k++){
+							if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
+								System.out.print(newZone.getPathMap()[i*width+k]+"  ");
+							}
+							if(newZone.getPathMap()[i*width+k] > 99){
+								System.out.print(newZone.getPathMap()[i*width+k]+" ");
+							}
+							if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
+								System.out.print(newZone.getPathMap()[i*width+k]+"   ");
+							}
+							System.out.println(" ");
 						}
 						System.out.println(" ");
-					}
-					System.out.println(" ");
-					}
-					*/
-					zones.add(newZone);
-					System.out.println("zone créée ");
+						}
+						*/
+						zones.add(newZone);
+						System.out.println("zone créée ");
 				}
 				
 				setZonesInfluence();
@@ -335,7 +334,7 @@ public class Map
 					Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
 					towers.add(newTower);
 				}
-
+				setTowerZone();
 				br.close();
 				
 			}
