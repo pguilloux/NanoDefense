@@ -29,7 +29,7 @@ class Dispatcher
     	bullets= new ArrayList<Bullet>();
 
     	map=new Map(zones,towers, agents, bullets);
-    	map.build("map.txt");
+    	map.build("map2.jpg");
     	
     	pan=new DrawPanel(zones,agents,towers,map);
     	players=new ArrayList<Player>();

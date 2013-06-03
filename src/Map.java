@@ -252,6 +252,17 @@ public class Map
 					zones.add(newZone3);
 					System.out.println("zone créée ");
 					setZonesInfluence();
+					
+					for(int j=0;j<nb_towers;j++)	
+					{
+						int x = Integer.parseInt(val.nextToken());
+						int y = Integer.parseInt(val.nextToken());
+						int influence = Integer.parseInt(val.nextToken());
+						int taille = Integer.parseInt(val.nextToken());
+						Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
+						towers.add(newTower);
+					}
+					setTowerZone();
 				}
 
 			else{
