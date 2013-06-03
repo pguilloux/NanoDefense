@@ -15,6 +15,8 @@ public class Zone extends RoundButton{
 	private int nb_agents;
 	private boolean active;
 	private boolean[] mod;
+	private JButton[] get_mod;
+	private RoundButton[] active_mod;
 	private int[] pathMap;
 	private int indexInPath;
 	private ArrayList<Tower> tours;
@@ -31,6 +33,13 @@ public class Zone extends RoundButton{
 		this.proprio=proprio;	
 		this.nb_agents=nb_agents;
 		mod=new boolean[4];
+		get_mod=new JButton[4];
+		active_mod=new RoundButton[4];	
+		for(int i=0; i<4; i++)
+		{
+			get_mod[i]=new JButton();
+			active_mod[i]=new RoundButton();
+		}
 	}
 	
 	public Zone(float x, float y, int taille)//zone neutre
@@ -43,6 +52,13 @@ public class Zone extends RoundButton{
 		this.nb_max_agents=taille/10;
 		this.progress=100/taille;
 		mod=new boolean[4];
+		get_mod=new JButton[4];
+		active_mod=new RoundButton[4];
+		for(int i=0; i<4; i++)
+		{
+			get_mod[i]=new JButton();
+			active_mod[i]=new RoundButton();
+		}
 	}
 	
 	/********GET&SET*********/
@@ -127,7 +143,22 @@ public class Zone extends RoundButton{
 	public void setIndexInPath(int indexInPath) {
 		this.indexInPath = indexInPath;
 	}
-
+	public boolean getMod(int k)
+	{
+		return mod[k];
+	}
+	public void setMod(int k, boolean a)
+	{
+		mod[k]=a;
+	}
+	public JButton getGetMod(int k)
+	{
+		return get_mod[k];
+	}
+	public RoundButton getActiveMod(int k)
+	{
+		return active_mod[k];
+	}
 	/********FUNCTIONS********/
     public void setColor()
     {
@@ -167,6 +198,19 @@ public class Zone extends RoundButton{
 	public void place()
 	{		
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
+		for(int i=0; i<4; i++)
+		{
+			get_mod[i].setBounds((int)this.getx()+taille/4*i,(int)this.gety()-10, 10, 10);
+			active_mod[i].setBounds((int)this.getx()+taille/4*i,(int)this.gety()+5+taille, 10, 10);
+		}
+		get_mod[0].setBackground(Color.WHITE);
+		get_mod[1].setBackground(Color.RED);
+		get_mod[2].setBackground(Color.GREEN);
+		get_mod[3].setBackground(Color.BLUE);
+		active_mod[0].setBackground(Color.WHITE);
+		active_mod[1].setBackground(Color.RED);
+		active_mod[2].setBackground(Color.GREEN);
+		active_mod[3].setBackground(Color.BLUE);
 	}
 	
 	public void buildPathMap(int width, int height){

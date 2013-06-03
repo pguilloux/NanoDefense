@@ -32,7 +32,15 @@ public class Player implements Runnable, ActionListener
 		this.map=MAP;
 		this.money_print=new RoundedCornerButton();
 		for(int i=0; i<zones.size(); i++)
+		{
 			zones.get(i).addActionListener(this);
+			for(int k=0; k<4; k++)
+			{
+				
+					zones.get(i).getGetMod(k).addActionListener(this);
+				
+			}
+		}
 		
 	}
 	
@@ -87,6 +95,7 @@ public class Player implements Runnable, ActionListener
  
 		for(int i=0; i<zones.size(); i++)
 		{
+			
 			if(source == zones.get(i))
 			{
 				if(zones.get(i).getActive())
@@ -125,8 +134,18 @@ public class Player implements Runnable, ActionListener
 					{
 						zones.get(i).setActive(true);
 					}
+					
 				}
-			}			
+			}
+			else
+				for(int k=0; k<4; k++)
+				{
+					if(source==zones.get(i).getGetMod(k))
+					{
+						zones.get(i).setMod(k, true);
+						//System.out.println(zones.get(i).getMod(k));
+					}
+				}
 		}
 	}	
 	

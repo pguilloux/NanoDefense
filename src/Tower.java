@@ -11,6 +11,7 @@ public class Tower extends RoundedCornerButton
 	private int taille;
 	private float influence;
 	private int zone;
+	private boolean active;
 	private int proprio;
 	private int cadence;
 	private Agent cible;
@@ -43,6 +44,14 @@ public class Tower extends RoundedCornerButton
 	{ 
 		return zone; 
 	}
+	public void setActive(boolean a)
+	{ 
+		this.active=a; 
+	}
+	public boolean getActive()
+	{ 
+		return this.active; 
+	}
 	
 	public Tower(float x, float y, float influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets, int taille)
 	{
@@ -55,23 +64,42 @@ public class Tower extends RoundedCornerButton
 		cadence=0;
 		haveCible=false;
 	}
-	public void setColor()
+	
+    public void setColor()
     {
-    	switch(this.getProprio())
+    	if(getActive())
+		switch(this.getProprio())
     	{    		
     		case 1:
-    			this.setBackground(Color.RED);
+    			this.setBackground(new Color(255, 0, 0));
     		break;
     	
     		case 2:
-    			this.setBackground(Color.BLUE);
+    			this.setBackground(new Color(0, 0, 255));
     		break;
     		
     		default:
-    			this.setBackground(Color.WHITE);
+    			this.setBackground(new Color(0, 0, 0));
+    		break;
+    	}
+    	else
+    	switch(this.getProprio())
+    	{
+    		
+    		case 1:
+    			this.setBackground(new Color(180, 0, 0));
+    		break;
+    	
+    		case 2:
+    			this.setBackground(new Color(0, 0, 180));
+    		break;
+    		
+    		default:
+    			this.setBackground(new Color(255, 255, 255));
     		break;
     	}
     }
+    
 	public void place()
 	{		
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);	
