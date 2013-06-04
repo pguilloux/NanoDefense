@@ -707,7 +707,7 @@ public class Map
 		for(int i=0; i<towers.size(); i++)
 		{
 			towers.get(i).setZone(zonesInfluenceMap[(int)(towers.get(i).getx()+towers.get(i).gety()*width)/10]);
-			System.out.println(towers.get(i).getx()+" "+towers.get(i).gety()+" "+towers.get(i).getZone());
+			//System.out.println(towers.get(i).getx()+" "+towers.get(i).gety()+" "+towers.get(i).getZone());
 		}
 	}
 	
