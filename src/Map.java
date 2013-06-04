@@ -183,9 +183,21 @@ public class Map
 				height=80;
 				table=new int[width*height];
 				zonesInfluenceMap=new int[width*height];
+				
+				
+				
+				int blueZoneWidth = 0;
+				boolean isBlue = false;
+
 				int[][] pixelData = buildFromImage(fichier);
 				for(int j=0;j<height;j++)	
 				{
+					ColoredLine blueLine = null;
+					ColoredLine redLine = null;
+					ColoredLine greenLine =null;
+					
+					int blueWidth = 0;
+
 					for(int i=0;i<width;i++)	
 					{
 						int r = pixelData[j*width+i][0];
@@ -198,6 +210,21 @@ public class Map
 						if(r > 100 && absRG > 50 && absRB > 50){
 							table[i+j*width] = 1;
 							//System.out.println("totototoooooooooooooooooooooo");
+						}
+						
+						if(b > 100 && absRB > 50 && absGB > 50){
+							if(!isBlue){
+								if(blueLine == null){
+									blueLine = new ColoredLine(i, j);
+								}
+								isBlue = true;
+							}
+						}else{
+							if(isBlue){
+								blueLine.xEnd = i;
+								blueLine.yEnd = j;
+								blueZoneWidth =  blueLine.getLineWidth() > blueZoneWidth ? blueLine.getLineWidth() : blueZoneWidth;
+							}
 						}
 						
 						if(r > 50 && (g == b) && (g == r)){
@@ -214,20 +241,25 @@ public class Map
 						}
 						
 					}
+					
+					if(blueZoneWidth < blueWidth)
+						blueZoneWidth = blueWidth;
+					
+					
 				}	
 				
 				nb_zones = 1;
 				
 			
-					Zone newZone = new Zone(1, 200,200,60,1,30);
+					Zone newZone = new Zone(1, 200,200,blueZoneWidth*case_cote,1,30);
 					Zone newZone2 = new Zone(2, 100,500,70,2,50);
 					Zone newZone3 = new Zone(3, 260,260,50,0,10);
 					newZone.buildPathMap(width, height);
-					newZone2.buildPathMap(width, height);
+					/*newZone2.buildPathMap(width, height);
 					newZone3.buildPathMap(width, height);
 					buildZonePathMap(newZone);
 					buildZonePathMap(newZone2);
-					buildZonePathMap(newZone3);
+					buildZonePathMap(newZone3);*/
 				
 					/*boucle d'affichage de la map de PathFining dans la console*/
 					/*for(int i=0; i<height; i++){
@@ -248,17 +280,23 @@ public class Map
 					
 					*/
 					zones.add(newZone);
-					zones.add(newZone2);
-					zones.add(newZone3);
+					/*zones.add(newZone2);
+					zones.add(newZone3);*/
 					System.out.println("zone créée ");
 					setZonesInfluence();
 					
 					for(int j=0;j<nb_towers;j++)	
 					{
-						int x = Integer.parseInt(val.nextToken());
+						/*int x = Integer.parseInt(val.nextToken());
 						int y = Integer.parseInt(val.nextToken());
 						int influence = Integer.parseInt(val.nextToken());
 						int taille = Integer.parseInt(val.nextToken());
+						Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
+						towers.add(newTower);*/
+						int x = j*100;
+						int y = j*100;
+						int influence = 20;
+						int taille = 70;
 						Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
 						towers.add(newTower);
 					}
