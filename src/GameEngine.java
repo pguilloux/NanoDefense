@@ -140,7 +140,12 @@ class GameEngine extends JFrame implements Runnable
 					pan.remove(agents.get(i));
 					//agents.get(i).setText(String.valueOf(nb_agents));
 					if(!agents.get(i).getMove())
+					{
+						if(agents.get(i).getMod(2))
+							for(int k=0; k<4; k++)
+								agents.add(new Agent(agents.get(i).getProprio(),agents.get(i).getx(),agents.get(i).gety()+k,agents.get(i).getZoneStart(),agents.get(i).getZoneStop(),map));
 						agents.remove(agents.get(i));
+					}
 					
 					else
 					{
