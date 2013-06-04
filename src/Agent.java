@@ -21,6 +21,7 @@ public class Agent extends RoundButton{
 	private float dx;
 	private float dy;
 	private float mvtLength;
+	private boolean[] mod;
 	
 	private int life;
 	
@@ -38,6 +39,14 @@ public class Agent extends RoundButton{
 	{ 
 		return this.move; 
 	}
+	public Zone getZoneStop()
+	{ 
+		return this.zone_stop; 
+	}
+	public Zone getZoneStart()
+	{ 
+		return this.zone_start; 
+	}
 	public int getProprio()
 	{ 
 		return this.proprio; 
@@ -45,6 +54,10 @@ public class Agent extends RoundButton{
 	public void looseLife(int nb)
 	{
 		life-=nb;
+	}
+	public boolean getMod(int k)
+	{
+		return mod[k];
 	}
 	/******CONSTRUCTOR*******/
 	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
@@ -57,12 +70,53 @@ public class Agent extends RoundButton{
 		this.proprio=proprio;
 		this.map = map;
 		this.move=true;
-		this.speed = 3;
-		this.life=3;
-		
+		this.speed = 2;
+		this.life=2;
+		this.mod=new boolean[4];
 		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
 		Vector<Integer> vect = path.pollFirst();
-
+		
+		for(int k=0; k<4; k++)
+		{
+			mod[k]=false;
+			if(zone_start.getMod(k))			
+				mod[k]=true;
+			
+		}
+			
+		if(mod[0])
+			speed=4;
+		if(mod[1])
+			life=20;
+	}
+	public Agent(int proprio,float x,float y, Zone zone_start, Zone zone_stop, Map map)
+	{
+		zone_start.setNbAgents(-1);
+		this.zone_start=zone_start;		
+		this.zone_stop=zone_stop;
+		this.x=x;
+		this.y=y;
+		this.proprio=proprio;
+		this.map = map;
+		this.move=true;
+		this.speed = 2;
+		this.life=2;
+		this.mod=new boolean[4];
+		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
+		Vector<Integer> vect = path.pollFirst();
+		
+		for(int k=0; k<4; k++)
+		{
+			mod[k]=false;
+			if(zone_start.getMod(k))			
+				mod[k]=true;
+			
+		}
+			
+		if(mod[0])
+			speed=4;
+		if(mod[1])
+			life=20;
 	}
 	
 	/********FUNCTIONS*******/
@@ -91,7 +145,7 @@ public class Agent extends RoundButton{
 		
 		if(move)
 		{
-			if(life<=0)
+			if(life<=0)					
 				move=false;
 			float absx1, absy1;
 			
