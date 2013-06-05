@@ -63,6 +63,14 @@ public class Agent extends RoundButton{
 	{
 		life-=nb;
 	}
+	public void looseSpeed(int nb)
+	{
+		speed-=nb;
+	}
+	public void giveLife(int nb)
+	{
+		life+=nb;
+	}
 	public boolean getMod(int k)
 	{
 		return mod[k];

@@ -108,7 +108,7 @@ public class Player implements Runnable, ActionListener
 			{
 				if(source==towers.get(i).getActiveType(k))
 				{
-					towers.get(i).setType(k);
+					towers.get(i).setType(k+1);
 					towers.get(i).upLevel();
 					//System.out.println(zones.get(i).getMod(k));
 				}
