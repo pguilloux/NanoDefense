@@ -219,13 +219,13 @@ public class Map
 								}
 								isBlue = true;
 							}
-						}else{
+						}/*else{
 							if(isBlue){
 								blueLine.xEnd = i;
 								blueLine.yEnd = j;
 								blueZoneWidth =  blueLine.getLineWidth() > blueZoneWidth ? blueLine.getLineWidth() : blueZoneWidth;
 							}
-						}
+						}*/
 						
 						if(r > 50 && (g == b) && (g == r)){
 							table[i+j*width] = 0;
