@@ -168,7 +168,138 @@ public class Map
 	}
 	
 	
-	
+	public ArrayList<Zone> getZonesFromImage(int[][] pixelData){
+		
+		//l'image ne peut comporter qu'une base par joueur (pour l'instant) et de couleurs rouge, verte et bleue
+		
+		ArrayList<Zone> zonesInImage = new ArrayList<Zone>();
+		
+		ColoredLine blueLine = null;
+		ColoredLine blueLineWide = null;
+		ColoredLine redLine = null;
+		ColoredLine redLineWide = null;
+		ColoredLine greenLine =null;
+		ColoredLine greenLineWide = null;
+		
+		boolean isBlue = false;
+		boolean isRed = false;
+		boolean isGreen = false;
+		
+		for(int j=0;j<height;j++)	
+		{
+
+			for(int i=0;i<width;i++)	
+			{
+				int r = pixelData[j*width+i][0];
+				int g = pixelData[j*width+i][1];
+				int b = pixelData[j*width+i][2];
+				int absRG = Math.abs(r-g);
+				int absRB = Math.abs(r-b);
+				int absGB = Math.abs(g-b);
+				
+				//red zone detected
+				if(r > 100 && absRB > 50 && absRG > 50){
+					if(!isRed){
+						if(redLine == null){
+							redLine = new ColoredLine(i, j);
+							redLineWide = new ColoredLine(redLine.xStart, redLine.y);
+						}
+						else{
+							redLine.xStart = i;
+							redLine.y = j;
+						}
+						isRed = true;
+					}
+				}else{
+					if(isRed){
+						redLine.xEnd = i;
+						if(redLineWide.xEnd == -1){
+							System.out.println("toto");
+							redLineWide.xEnd = i;
+							redLineWide.xEnd = j;
+						}
+						
+						if(redLineWide.getLineWidth() < redLine.getLineWidth()){
+							System.out.println("red");
+							System.out.println(i+" "+j);
+							redLineWide.xStart = redLine.xStart;
+							redLineWide.xEnd = redLine.xEnd;
+						}
+						isRed = false;
+					}
+				}
+				
+				//blue zone detected
+				if(b > 100 && absRB > 50 && absGB > 50){
+					if(!isBlue){
+						if(blueLine == null){
+							blueLine = new ColoredLine(i, j);
+							blueLineWide = new ColoredLine(blueLine.xStart, blueLine.y);
+						}
+						else{
+							blueLine.xStart = i;
+							blueLine.y = j;
+						}
+						isBlue = true;
+					}
+				}else{
+					if(isBlue){
+						blueLine.xEnd = i;
+						if(blueLineWide.xEnd == -1){
+							System.out.println("toto");
+							blueLineWide.xEnd = i;
+							blueLineWide.xEnd = j;
+						}
+						
+						if(blueLineWide.getLineWidth() < blueLine.getLineWidth()){
+							System.out.println("blue");
+							blueLineWide.xStart = blueLine.xStart;
+							blueLineWide.xEnd = blueLine.xEnd;
+						}
+						isBlue = false;
+					}
+				}
+				//green zone detected
+				if(g > 100 && absRG > 50 && absGB > 50){
+					if(!isGreen){
+						if(greenLine == null){
+							greenLine = new ColoredLine(i, j);
+							greenLineWide = new ColoredLine(greenLine.xStart, greenLine.y);
+						}
+						else{
+							greenLine.xStart = i;
+							greenLine.y = j;
+						}
+						isGreen = true;
+					}
+				}else{
+					if(isGreen){
+						greenLine.xEnd = i;
+						if(greenLineWide.xEnd == -1){
+							System.out.println("toto");
+							greenLineWide.xEnd = i;
+							greenLineWide.xEnd = j;
+						}
+						
+						if(greenLineWide.getLineWidth() < greenLine.getLineWidth()){
+							System.out.println("green");
+							greenLineWide.xStart = greenLine.xStart;
+							greenLineWide.xEnd = greenLine.xEnd;
+						}
+						isGreen = false;
+					}
+				}	
+			}	
+		}	
+		if(redLineWide != null)
+			zonesInImage.add(new Zone(1, redLineWide.xStart*case_cote, redLineWide.y*case_cote, redLineWide.getLineWidth()*case_cote, 1, redLineWide.getLineWidth()));
+		if(blueLineWide != null)
+			zonesInImage.add(new Zone(2, blueLineWide.xStart*case_cote, blueLineWide.y*case_cote, blueLineWide.getLineWidth()*case_cote, 2, blueLineWide.getLineWidth()));
+		if(greenLineWide != null)
+			zonesInImage.add(new Zone(3, greenLineWide.xStart*case_cote, greenLineWide.y*case_cote, greenLineWide.getLineWidth()*case_cote, 3, greenLineWide.getLineWidth()));
+		
+		return zonesInImage;
+	}
 	
 	
 	public void build(String fichier)
@@ -184,20 +315,11 @@ public class Map
 				table=new int[width*height];
 				zonesInfluenceMap=new int[width*height];
 				
-				
-				
-				int blueZoneWidth = 0;
-				boolean isBlue = false;
 
 				int[][] pixelData = buildFromImage(fichier);
 				for(int j=0;j<height;j++)	
 				{
-					ColoredLine blueLine = null;
-					ColoredLine redLine = null;
-					ColoredLine greenLine =null;
 					
-					int blueWidth = 0;
-
 					for(int i=0;i<width;i++)	
 					{
 						int r = pixelData[j*width+i][0];
@@ -207,25 +329,6 @@ public class Map
 						int absRB = Math.abs(r-b);
 						int absGB = Math.abs(g-b);
 
-						if(r > 100 && absRG > 50 && absRB > 50){
-							table[i+j*width] = 1;
-							//System.out.println("totototoooooooooooooooooooooo");
-						}
-						
-						if(b > 100 && absRB > 50 && absGB > 50){
-							if(!isBlue){
-								if(blueLine == null){
-									blueLine = new ColoredLine(i, j);
-								}
-								isBlue = true;
-							}
-						}/*else{
-							if(isBlue){
-								blueLine.xEnd = i;
-								blueLine.yEnd = j;
-								blueZoneWidth =  blueLine.getLineWidth() > blueZoneWidth ? blueLine.getLineWidth() : blueZoneWidth;
-							}
-						}*/
 						
 						if(r > 50 && (g == b) && (g == r)){
 							table[i+j*width] = 0;
@@ -235,69 +338,33 @@ public class Map
 							table[i+j*width] = 0;
 						}*/
 						
+						//case noire (ou grise)
 						if(r < 51 && g < 51 && b < 51){
 							table[i+j*width] = 1;
-							//System.out.println("raaaaaaaaaaaaaaararrrrrrrrrra");
 						}
 						
-					}
+						
+					}	
+				}
+				ArrayList<Zone> zones = getZonesFromImage(pixelData);
+				for(int j=0;j<zones.size();j++)	
+				{
+					zones.get(j).buildPathMap(width, height);
+					buildZonePathMap(zones.get(j));
+	
+					this.zones.add(zones.get(j));
+					System.out.println(zones.size());
+				}
 					
-					if(blueZoneWidth < blueWidth)
-						blueZoneWidth = blueWidth;
-					
-					
-				}	
-				
-				nb_zones = 1;
-				
-			
-					Zone newZone = new Zone(1, 200,200,blueZoneWidth*case_cote,1,30);
-					Zone newZone2 = new Zone(2, 100,500,70,2,50);
-					Zone newZone3 = new Zone(3, 260,260,50,0,10);
-					newZone.buildPathMap(width, height);
-					/*newZone2.buildPathMap(width, height);
-					newZone3.buildPathMap(width, height);
-					buildZonePathMap(newZone);
-					buildZonePathMap(newZone2);
-					buildZonePathMap(newZone3);*/
-				
-					/*boucle d'affichage de la map de PathFining dans la console*/
-					/*for(int i=0; i<height; i++){
-						for(int k=0; k<width; k++){
-							if(newZone.getPathMap()[i*width+k] < 0 || (newZone.getPathMap()[i*width+k] > 9 && newZone.getPathMap()[i*width+k] < 100)){
-								System.out.print(newZone.getPathMap()[i*width+k]+"  ");
-							}
-							if(newZone.getPathMap()[i*width+k] > 99){
-								System.out.print(newZone.getPathMap()[i*width+k]+" ");
-							}
-							if(newZone.getPathMap()[i*width+k] < 10 && newZone.getPathMap()[i*width+k] > -1){
-								System.out.print(newZone.getPathMap()[i*width+k]+"   ");
-							}
-						}
-						System.out.println(" ");
-					}
-					System.out.println(" ");
-					
-					*/
-					zones.add(newZone);
-					/*zones.add(newZone2);
-					zones.add(newZone3);*/
-					System.out.println("zone créée ");
 					setZonesInfluence();
 					
 					for(int j=0;j<nb_towers;j++)	
 					{
-						/*int x = Integer.parseInt(val.nextToken());
-						int y = Integer.parseInt(val.nextToken());
-						int influence = Integer.parseInt(val.nextToken());
-						int taille = Integer.parseInt(val.nextToken());
-						Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
-						towers.add(newTower);*/
 						int x = j*100;
 						int y = j*100;
 						int influence = 20;
 						int taille = 70;
-						Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
+						Tower newTower = new Tower(x,y,influence ,agents, bullets);	
 						towers.add(newTower);
 					}
 					setTowerZone();
@@ -379,12 +446,13 @@ public class Map
 					int x = Integer.parseInt(val.nextToken());
 					int y = Integer.parseInt(val.nextToken());
 					int influence = Integer.parseInt(val.nextToken());
-					int taille = Integer.parseInt(val.nextToken());
-					Tower newTower = new Tower(x,y,influence ,agents, bullets, taille);	
+					//int taille = Integer.parseInt(val.nextToken());
+					Tower newTower = new Tower(x,y,influence ,agents, bullets);	
 					towers.add(newTower);
 				}
 				setTowerZone();
-				br.close();
+
+				br.close(); 
 				
 			}
 		}
