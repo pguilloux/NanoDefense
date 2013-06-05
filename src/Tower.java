@@ -13,7 +13,7 @@ public class Tower extends RoundedCornerButton
 	private float y;
 	private int price;
 	private int taille;
-	private float influence;
+	private int influence;
 	private int zone;
 	private boolean active;
 	private int proprio;
@@ -68,6 +68,10 @@ public class Tower extends RoundedCornerButton
 	{ 
 		return level; 
 	}
+	public int getInfluence()
+	{ 
+		return influence; 
+	}
 	public void upLevel()
 	{ 
 		++level; 
@@ -77,16 +81,17 @@ public class Tower extends RoundedCornerButton
 		type=k; 
 	}
 	
-	public Tower(float x, float y, float influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets, int taille)
+	public Tower(float x, float y, int influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets)
 	{
 		this.x=x;
 		this.y=y;
 		this.influence=influence;
 		this.agents=agents;
 		this.bullets=bullets;
-		this.taille=taille;
+		this.taille=20;
 		cadence=0;
 		haveCible=false;
+		type=0;
 		level=0;
 		up_level=new JButton();
 		active_type= new JButton[5];
@@ -146,11 +151,12 @@ public class Tower extends RoundedCornerButton
 	}
 	public void shoot()
 	{
+		if(level!=0)
 		if(haveCible && cible.getMove())
 			if(cible.getx()>x-influence && cible.getx()<x+influence && cible.gety()>y-influence && cible.gety()<y+influence)
 			if(cadence>20)
 			{
-				bullets.add(new Bullet(this,cible));
+				bullets.add(new Bullet(this,cible,type,1));
 				cadence=0;
 			}
 			else
@@ -160,13 +166,22 @@ public class Tower extends RoundedCornerButton
 		else
 		for(int i=0; i<agents.size(); i++)
 		{
-			if(agents.get(i).getProprio()!=proprio)
+			if(agents.get(i).getProprio()!=proprio && type!=3)
 			if(agents.get(i).getx()>x-influence && agents.get(i).getx()<x+influence && agents.get(i).gety()>y-influence && agents.get(i).gety()<y+influence)
 			{
 				
 				cible=agents.get(i);
 				haveCible=true;				
 			}
+			if(agents.get(i).getProprio()==proprio && type==3)
+				if(agents.get(i).getx()>x-influence && agents.get(i).getx()<x+influence && agents.get(i).gety()>y-influence && agents.get(i).gety()<y+influence)
+				{
+					
+					cible=agents.get(i);
+					haveCible=true;				
+				}
+			
 		}
+			
 	}
 }

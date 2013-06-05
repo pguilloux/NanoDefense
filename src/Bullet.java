@@ -7,13 +7,13 @@ public class Bullet extends RoundButton{
 	
 	private float x;
 	private float y;
-	private float nextX;
-	private float nextY;
 	private int proprio;
 	private Tower tower_start;
 	private Agent agent_stop;
 	private boolean move;
 	private float speed;
+	private int type;
+	private int hit;
 
 	
 	/*****GET&SET******/
@@ -36,36 +36,50 @@ public class Bullet extends RoundButton{
 	}
 	
 	/******CONSTRUCTOR*******/
-	public Bullet(Tower tower_start, Agent agent_stop)
+	public Bullet(Tower tower_start, Agent agent_stop, int type, int hit)
 	{
 		this.tower_start=tower_start;		
 		this.agent_stop=agent_stop;
 		this.x=tower_start.getx();
 		this.y=tower_start.gety();
-
+		this.type=type;
 		this.move=true;
 		this.speed = 20;
+		this.hit=hit;
 
 	}
 	
 	
-	/********FUNCTIONS*******/
-	
-
-	 
+	/********FUNCTIONS*******/ 
 	 
 	 public void move()
 		{
 			if(move && agent_stop.getMove())
 			{
-				float dx=agent_stop.getx()-this.x;
-				float dy=agent_stop.gety()-this.y;
+				float dx=agent_stop.getx()+5-this.x;
+				float dy=agent_stop.gety()+5-this.y;
 				float absx=(dx<0)?-dx:dx;
 				float absy=(dy<0)?-dy:dy;
-				if(absx<5 && absy<=5)
+				if(absx<10 && absy<=10)
 				{
-					
-					agent_stop.looseLife(1);
+					switch(type)
+					{
+						case 1:
+							agent_stop.looseLife(hit);
+						break;
+						
+						case 2:
+							agent_stop.looseSpeed(hit);
+						break;
+						
+						case 3:
+							agent_stop.giveLife(hit);
+						break;
+						case 4:
+							agent_stop.looseLife(hit);
+							
+					}
+					//agent_stop.looseLife(1);
 					move=false;
 
 				}

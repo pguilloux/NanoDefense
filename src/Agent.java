@@ -39,6 +39,10 @@ public class Agent extends RoundButton{
 	{ 
 		return this.move; 
 	}
+	public void setMove(boolean a)
+	{ 
+		this.move=a; 
+	}
 	public Zone getZoneStop()
 	{ 
 		return this.zone_stop; 
@@ -51,13 +55,29 @@ public class Agent extends RoundButton{
 	{ 
 		return this.proprio; 
 	}
+	public int getLife()
+	{
+		return life;
+	}
 	public void looseLife(int nb)
 	{
 		life-=nb;
 	}
+	public void looseSpeed(int nb)
+	{
+		speed-=nb;
+	}
+	public void giveLife(int nb)
+	{
+		life+=nb;
+	}
 	public boolean getMod(int k)
 	{
 		return mod[k];
+	}
+	public LinkedList<Vector<Integer>> getPath()
+	{
+		return path;
 	}
 	/******CONSTRUCTOR*******/
 	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
@@ -89,11 +109,12 @@ public class Agent extends RoundButton{
 		if(mod[1])
 			life=20;
 	}
-	public Agent(int proprio,float x,float y, Zone zone_start, Zone zone_stop, Map map)
+	public Agent(int proprio,float x,float y, LinkedList<Vector<Integer>> path, Zone zone_start, Zone zone_stop, Map map)
 	{
-		zone_start.setNbAgents(-1);
-		this.zone_start=zone_start;		
+		//zone_start.setNbAgents(-1);
+		this.path=path;		
 		this.zone_stop=zone_stop;
+		this.zone_start=zone_start;
 		this.x=x;
 		this.y=y;
 		this.proprio=proprio;
@@ -145,12 +166,13 @@ public class Agent extends RoundButton{
 		
 		if(move)
 		{
-			if(life<=0)					
-				move=false;
 			float absx1, absy1;
 			
-			nextX = path.getFirst().elementAt(0);
-			nextY = path.getFirst().elementAt(1);
+			if(!path.isEmpty())
+			{
+				nextX = path.getFirst().elementAt(0);
+				nextY = path.getFirst().elementAt(1);
+			}
 			distance= Math.hypot(nextX-x, nextY-y);
 			mvtLength = (int)(distance/speed);
 					
@@ -177,14 +199,20 @@ public class Agent extends RoundButton{
 				System.out.println("toto");
 			}
 			if(!path.isEmpty()){
-			/*float dx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
-			float dy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;*/
-			float absx=(dx<0)?-dx:dx;
-			float absy=(dy<0)?-dy:dy;
+			float diffx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
+			float diffy=zone_stop.gety()+zone_stop.getTaille()/2-this.y;
+			float absx=(diffx<0)?-diffx:diffx;
+			float absy=(diffy<0)?-diffy:diffy;
 			
 			System.out.println(path.getFirst());
+			float vx=(float)(dx/distance);
+			float vy=(float)(dy/distance);
 			
-			if(absx<3 && absy<=3 && path.getFirst().elementAt(0) == path.getLast().elementAt(0) && path.getFirst().elementAt(1) == path.getLast().elementAt(1))
+			/*this.x+=vx*speed;
+			this.y+=vy*speed;*/
+			this.x += vx*speed;
+			this.y += vy*speed;
+			if(absx<=zone_stop.getTaille()/2+10 && absy<=zone_stop.getTaille()/2+10)
 			{		
 				
 				if(zone_stop.getProprio()==this.getProprio())
@@ -207,13 +235,7 @@ public class Agent extends RoundButton{
 				move=false;
 			}
 			
-			float vx=(float)(dx/distance);
-			float vy=(float)(dy/distance);
 			
-			/*this.x+=vx*speed;
-			this.y+=vy*speed;*/
-			this.x += vx*speed;
-			this.y += vy*speed;
 			
 					
 			this.setBounds((int)this.getx(),(int)this.gety(), 10, 10);	
