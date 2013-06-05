@@ -58,11 +58,11 @@ public class Bullet extends RoundButton{
 		{
 			if(move && agent_stop.getMove())
 			{
-				float dx=agent_stop.getx()-this.x;
-				float dy=agent_stop.gety()-this.y;
+				float dx=agent_stop.getx()+5-this.x;
+				float dy=agent_stop.gety()+5-this.y;
 				float absx=(dx<0)?-dx:dx;
 				float absy=(dy<0)?-dy:dy;
-				if(absx<5 && absy<=5)
+				if(absx<10 && absy<=10)
 				{
 					
 					agent_stop.looseLife(1);
