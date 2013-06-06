@@ -63,7 +63,7 @@ public class IA extends Player implements Runnable{
 			if(activeZone != -1){
 				if(zones.get(activeZone).getNbAgents()>1)
 				{
-					agents.add(new Agent(2, zones.get(activeZone), zones.get(enemyZone), map));
+					agents.add(new Agent(2,2, zones.get(activeZone), zones.get(enemyZone), map));
 				}
 			}
 				
