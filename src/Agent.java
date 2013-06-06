@@ -24,6 +24,8 @@ public class Agent extends RoundButton{
 	private boolean[] mod;
 	
 	private int life;
+	private int maxlife;
+	private int loadlife;
 	
 	/*****GET&SET******/
 	
@@ -92,6 +94,8 @@ public class Agent extends RoundButton{
 		this.move=true;
 		this.speed = 2;
 		this.life=2;
+		this.maxlife=life;
+		loadlife=0;
 		this.mod=new boolean[4];
 		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
 		Vector<Integer> vect = path.pollFirst();
@@ -166,6 +170,16 @@ public class Agent extends RoundButton{
 		
 		if(move)
 		{
+			if(mod[3] && life<maxlife)
+			{
+				if(loadlife>20)
+				{
+					life++;
+					loadlife=0;
+				}
+				else loadlife++;
+			}
+			
 			float absx1, absy1;
 			
 			if(!path.isEmpty())
@@ -189,14 +203,12 @@ public class Agent extends RoundButton{
 			if(absx1>1.7 && absy1>=1.7){
 				dx = path.getFirst().elementAt(0)-this.x;
 				dy = path.getFirst().elementAt(1)-this.y;
-				System.out.println(distance);
 				
 			}
 			else if(!path.isEmpty()){
 				Vector<Integer> vect = path.pollFirst();
 				dx = vect.elementAt(0)-this.x;
 				dy = vect.elementAt(1)-this.y;	
-				System.out.println("toto");
 			}
 			if(!path.isEmpty()){
 			float diffx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
@@ -204,7 +216,6 @@ public class Agent extends RoundButton{
 			float absx=(diffx<0)?-diffx:diffx;
 			float absy=(diffy<0)?-diffy:diffy;
 			
-			System.out.println(path.getFirst());
 			float vx=(float)(dx/distance);
 			float vy=(float)(dy/distance);
 			

@@ -29,12 +29,14 @@ class Dispatcher
     	bullets= new ArrayList<Bullet>();
 
     	map=new Map(zones,towers, agents, bullets);
-    	map.build("map2.jpg");
+    	map.build("map.txt");
     	
     	pan=new DrawPanel(zones,agents,towers,map);
     	players=new ArrayList<Player>();
-    	players.add(new Player(100,zones,towers,agents,map));
-    	players.add(new IA(100,zones,towers,agents,map));
+
+    	players.add(new Player(1, 100,zones,towers,agents,map));
+    	players.add(new IA(2, 100,zones,towers,agents,map));
+
 
     	this.pan=buildContentPane();
     	Thread t = new Thread(new GameEngine(zones,agents,towers, players,bullets,pan, map));
