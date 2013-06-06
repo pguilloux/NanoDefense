@@ -219,14 +219,12 @@ public class Agent extends RoundButton{
 			if(absx1>1.7 && absy1>=1.7){
 				dx = path.getFirst().elementAt(0)-this.x;
 				dy = path.getFirst().elementAt(1)-this.y;
-				System.out.println(distance);
 				
 			}
 			else if(!path.isEmpty()){
 				Vector<Integer> vect = path.pollFirst();
 				dx = vect.elementAt(0)-this.x;
 				dy = vect.elementAt(1)-this.y;	
-				System.out.println("toto");
 			}
 			if(!path.isEmpty()){
 			float diffx=zone_stop.getx()+zone_stop.getTaille()/2-this.x;
@@ -234,7 +232,6 @@ public class Agent extends RoundButton{
 			float absx=(diffx<0)?-diffx:diffx;
 			float absy=(diffy<0)?-diffy:diffy;
 			
-			System.out.println(path.getFirst());
 			float vx=(float)(dx/distance);
 			float vy=(float)(dy/distance);
 			

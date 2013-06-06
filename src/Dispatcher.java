@@ -33,7 +33,10 @@ class Dispatcher
     	
     	pan=new DrawPanel(zones,agents,towers,map);
     	players=new ArrayList<Player>();
-    	players.add(new Player(1,100,zones,towers,agents,map));
+
+    	players.add(new Player(1, 100,zones,towers,agents,map));
+    	players.add(new IA(2, 100,zones,towers,agents,map));
+
 
     	this.pan=buildContentPane();
     	Thread t = new Thread(new GameEngine(zones,agents,towers, players,bullets,pan, map));
