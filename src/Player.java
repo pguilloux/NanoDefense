@@ -10,6 +10,7 @@ public class Player implements Runnable, ActionListener
 	private ArrayList<Agent> agents;
 	private Map map;
 	private RoundedCornerButton money_print;
+	private int id;
 	
 	/* ----------------------------- */
 	/*   Déclaration des méthodes    */
@@ -24,7 +25,8 @@ public class Player implements Runnable, ActionListener
 		
 	}
 	
-	public Player(int MONEY, ArrayList<Zone> ZONELIST, ArrayList<Tower> TOWERLIST, ArrayList<Agent> AGENTLIST, Map MAP) {
+	public Player(int id,int MONEY, ArrayList<Zone> ZONELIST, ArrayList<Tower> TOWERLIST, ArrayList<Agent> AGENTLIST, Map MAP) {
+		this.id=id;
 		this.money = MONEY;
 		this.zones = ZONELIST;
 		this.towers = TOWERLIST;
@@ -102,14 +104,17 @@ public class Player implements Runnable, ActionListener
 		for(int i=0; i<towers.size(); i++)
 		{	
 			if(source==towers.get(i).getUpLevel())
+			{
 				towers.get(i).upLevel();
-					
+				towers.get(i).set();
+			}
 			for(int k=0; k<5; k++)
 			{
 				if(source==towers.get(i).getActiveType(k))
 				{
 					towers.get(i).setType(k+1);
 					towers.get(i).upLevel();
+					towers.get(i).set();
 					//System.out.println(zones.get(i).getMod(k));
 				}
 			}
@@ -151,7 +156,7 @@ public class Player implements Runnable, ActionListener
 						
 						}
 					}
-					if(zap>=0 && zae==0 && zones.get(i).getProprio()!=0)
+					if(zap>=0 && zae==0 && zones.get(i).getProprio()==id)
 					{
 						zones.get(i).setActive(true);
 					}

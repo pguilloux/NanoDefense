@@ -9,11 +9,13 @@ public class Tower extends RoundedCornerButton
 	private JButton up_level;
 	private JButton[] active_type;
 	private int level;
+	private int hit;
 	private float x;
 	private float y;
 	private int price;
 	private int taille;
 	private int influence;
+	private int pas;
 	private int zone;
 	private boolean active;
 	private int proprio;
@@ -74,6 +76,7 @@ public class Tower extends RoundedCornerButton
 	}
 	public void upLevel()
 	{ 
+		if(level<5)
 		++level; 
 	}
 	public void setType(int k)
@@ -81,18 +84,20 @@ public class Tower extends RoundedCornerButton
 		type=k; 
 	}
 	
-	public Tower(float x, float y, int influence, ArrayList<Agent> agents, ArrayList<Bullet> bullets)
+	public Tower(float x, float y, ArrayList<Agent> agents, ArrayList<Bullet> bullets)
 	{
 		this.x=x;
 		this.y=y;
-		this.influence=influence;
+		
 		this.agents=agents;
 		this.bullets=bullets;
+		level=0;
 		this.taille=20;
 		cadence=0;
+		pas=10;
+		this.influence=50;
 		haveCible=false;
 		type=0;
-		level=0;
 		up_level=new JButton();
 		active_type= new JButton[5];
 		for(int i=0;i<5;i++)
@@ -145,18 +150,33 @@ public class Tower extends RoundedCornerButton
 			active_type[i].setBounds((int)this.getx()+10*i,(int)this.gety()-10, 10, 10);
 		}
 	}
-	public void setProprio()
-	{
-		
+	public void set()
+	{		
+		taille=(level+1)*(15);
+		influence=50*level;
+		pas=30/level;
+		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);
+		if(level<5)
+		up_level.setBounds((int)this.getx()+taille/2-10,(int)this.gety()-20, 20, 20);
+		else 
+			up_level.setBounds((int)this.getx()+taille/2-10,(int)this.gety()-20, 0, 0);
+		for(int i=0;i<5;i++)
+		{
+			active_type[i].setBounds((int)this.getx()+10*i,(int)this.gety()-10, 10, 10);
+		}
 	}
+
+
 	public void shoot()
 	{
 		if(level!=0)
 		if(haveCible && cible.getMove())
 			if(cible.getx()>x-influence && cible.getx()<x+influence && cible.gety()>y-influence && cible.gety()<y+influence)
-			if(cadence>20)
+			if(cadence>pas)
 			{
-				bullets.add(new Bullet(this,cible,type,1));
+				if(type==4)
+					hit++;
+				bullets.add(new Bullet(this,cible,type,hit));
 				cadence=0;
 			}
 			else
@@ -178,7 +198,8 @@ public class Tower extends RoundedCornerButton
 				{
 					
 					cible=agents.get(i);
-					haveCible=true;				
+					haveCible=true;	
+					hit=1;
 				}
 			
 		}

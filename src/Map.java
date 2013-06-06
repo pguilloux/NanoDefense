@@ -145,7 +145,7 @@ public class Map
 				int y = Integer.parseInt(val.nextToken());
 				int influence = Integer.parseInt(val.nextToken());
 				int taille = Integer.parseInt(val.nextToken());
-				Tower newTower = new Tower(x,y,influence ,agents, bullets);				
+				Tower newTower = new Tower(x,y,agents, bullets);				
 				towers.add(newTower);
 			}
 			
@@ -364,7 +364,7 @@ public class Map
 						int y = j*100;
 						int influence = 20;
 						int taille = 70;
-						Tower newTower = new Tower(x,y,influence ,agents, bullets);	
+						Tower newTower = new Tower(x,y,agents, bullets);	
 						towers.add(newTower);
 					}
 					setTowerZone();
@@ -445,9 +445,8 @@ public class Map
 					val = new StringTokenizer(ligne," ");
 					int x = Integer.parseInt(val.nextToken());
 					int y = Integer.parseInt(val.nextToken());
-					int influence = Integer.parseInt(val.nextToken());
 					//int taille = Integer.parseInt(val.nextToken());
-					Tower newTower = new Tower(x,y,influence ,agents, bullets);	
+					Tower newTower = new Tower(x,y ,agents, bullets);	
 					towers.add(newTower);
 				}
 				setTowerZone();
@@ -863,8 +862,6 @@ public class Map
 				fichierSortie.print((int)towers.get(k).getx());
 				fichierSortie.print(" "); 
 				fichierSortie.print((int)towers.get(k).gety());
-				fichierSortie.print(" "); 
-				fichierSortie.print(towers.get(k).getInfluence());	
 				fichierSortie.print("\r\n"); 
 			}
 			System.out.println("zones save");
