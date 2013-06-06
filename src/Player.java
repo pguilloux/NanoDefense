@@ -149,7 +149,7 @@ public class Player implements Runnable, ActionListener
 								}
 								if(zones.get(j).getNbAgents()>1 && zones.get(i).getProprio()!=zones.get(j).getProprio())
 								{	
-									agents.add(new Agent(zones.get(j).getProprio(),zones.get(j),zones.get(i), map));
+									agents.add(new Agent(zones.get(j).getProprio(),2,zones.get(j),zones.get(i), map));
 								}
 							
 							}

@@ -70,10 +70,13 @@ public class Bullet extends RoundButton{
 						
 						case 2:
 							agent_stop.looseSpeed(hit);
+							if(agent_stop.getSpeed()<=0)
+								agent_stop.setSpeed(1);
 						break;
 						
 						case 3:
 							agent_stop.giveLife(hit);
+							
 						break;
 						case 4:
 							agent_stop.looseLife(hit);

@@ -12,7 +12,7 @@ public class Agent extends RoundButton{
 	private Zone zone_start;
 	private Zone zone_stop;
 	private boolean move;
-	private float speed;
+	private int speed;
 	private Map map;
 	private LinkedList<Vector<Integer>> path;
 	
@@ -61,6 +61,18 @@ public class Agent extends RoundButton{
 	{
 		return life;
 	}
+	public void setLife(int n)
+	{
+		life=n;
+	}
+	public int getSpeed()
+	{
+		return speed;
+	}
+	public void setSpeed(int n)
+	{
+		speed=n;
+	}
 	public void looseLife(int nb)
 	{
 		life-=nb;
@@ -82,7 +94,7 @@ public class Agent extends RoundButton{
 		return path;
 	}
 	/******CONSTRUCTOR*******/
-	public Agent(int proprio, Zone zone_start, Zone zone_stop, Map map)
+	public Agent(int proprio, int life,Zone zone_start, Zone zone_stop, Map map)
 	{
 		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		
@@ -93,8 +105,8 @@ public class Agent extends RoundButton{
 		this.map = map;
 		this.move=true;
 		this.speed = 2;
-		this.life=2;
-		this.maxlife=life;
+		this.life=life;
+		
 		loadlife=0;
 		this.mod=new boolean[4];
 		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
@@ -111,9 +123,10 @@ public class Agent extends RoundButton{
 		if(mod[0])
 			speed=4;
 		if(mod[1])
-			life=20;
+			life=10;
+		this.maxlife=life;
 	}
-	public Agent(int proprio,float x,float y, LinkedList<Vector<Integer>> path, Zone zone_start, Zone zone_stop, Map map)
+	public Agent(int proprio,int life,float x,float y, LinkedList<Vector<Integer>> path, Zone zone_start, Zone zone_stop, Map map)
 	{
 		//zone_start.setNbAgents(-1);
 		this.path=path;		
@@ -125,7 +138,9 @@ public class Agent extends RoundButton{
 		this.map = map;
 		this.move=true;
 		this.speed = 2;
-		this.life=2;
+		this.life=life;
+		
+		loadlife=0;
 		this.mod=new boolean[4];
 		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
 		Vector<Integer> vect = path.pollFirst();
@@ -141,7 +156,8 @@ public class Agent extends RoundButton{
 		if(mod[0])
 			speed=4;
 		if(mod[1])
-			life=20;
+			life=10;
+		this.maxlife=life;
 	}
 	
 	/********FUNCTIONS*******/
@@ -151,11 +167,11 @@ public class Agent extends RoundButton{
     	switch(this.getProprio())
     	{    		
     		case 1:
-    			this.setBackground(Color.RED);
+    			this.setBackground(new Color(20*life, 0, 0));
     		break;
     	
     		case 2:
-    			this.setBackground(Color.BLUE);
+    			this.setBackground(new Color(0, 0, 20*life));
     		break;
     		
     		default:
@@ -248,7 +264,6 @@ public class Agent extends RoundButton{
 				}
 				move=false;
 			}
-			
 			
 			
 					
