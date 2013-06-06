@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Player implements Runnable, ActionListener
 {
-	private int money;
-	private ArrayList<Zone> zones;
-	private ArrayList<Tower> towers;
-	private ArrayList<Agent> agents;
-	private Map map;
-	private RoundedCornerButton money_print;
+	protected int money;
+	protected ArrayList<Zone> zones;
+	protected ArrayList<Tower> towers;
+	protected ArrayList<Agent> agents;
+	protected Map map;
+	protected RoundedCornerButton money_print;
 	
 	/* ----------------------------- */
 	/*   Déclaration des méthodes    */
