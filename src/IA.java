@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class IA extends Player implements Runnable{
 	
 	
-	private boolean isAlive = true;
 	private int activeZone;
 	private int enemyZone;
 	

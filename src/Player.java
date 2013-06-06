@@ -12,6 +12,7 @@ public class Player implements Runnable, ActionListener
 	protected Map map;
 	protected RoundedCornerButton money_print;
 	protected int id;
+	protected boolean isAlive = true;
 	
 	/* ----------------------------- */
 	/*   Déclaration des méthodes    */
@@ -97,7 +98,18 @@ public class Player implements Runnable, ActionListener
 	
 	public void run()
 	{
-		
+		while(isAlive){
+			boolean noMoreZone = true;
+			for(int i=0; i<zones.size(); i++)
+			{
+				if(zones.get(i).getProprio() == id){
+					noMoreZone = false;
+				}
+				else{
+					zones.get(i).setActive(false);
+				}
+			}
+		}
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
