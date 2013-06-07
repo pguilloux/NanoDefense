@@ -101,7 +101,7 @@ public class Player implements Runnable, ActionListener
 	/*******FUNCTIONS*********/
 	public void printMoney()
 	{	
-		money_print.setText(String.valueOf(money));
+		money_print.setText(String.valueOf(money)+"$");
 		money_print.setBounds(0,0, 100, 20);			
 	}
 	public void run()
