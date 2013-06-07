@@ -13,6 +13,7 @@ public class Player implements Runnable, ActionListener
 	protected RoundedCornerButton money_print;
 	protected int id;
 	protected boolean isAlive = true;
+	int pas=0;
 	
 	/* ----------------------------- */
 	/*   Déclaration des méthodes    */
@@ -61,6 +62,10 @@ public class Player implements Runnable, ActionListener
 	public int getMoney() {
 		return this.money;
 	}
+	public void pay(int nb)
+	{
+		money-=nb;
+	}
 	
 	public ArrayList<Zone> getZoneList() {
 		return this.zones;
@@ -95,7 +100,27 @@ public class Player implements Runnable, ActionListener
 		money_print.setText(String.valueOf(money));
 		money_print.setBounds(0,0, 100, 20);			
 	}
-	public void run(){}
+	public void run()
+	{
+		for(;;)
+		{
+
+			int gain=0;
+			for(int i=0; i<zones.size();i++)
+			{
+				if(zones.get(i).getProprio()==id)
+					gain+=zones.get(i).getTaille()/100;
+			}
+			
+			if(pas>100000000/gain)
+			{
+				money+=gain;
+				pas=0;
+			}
+			else 
+				pas++;
+		}
+	}
 	public void kill()
 	{
 		
@@ -115,17 +140,26 @@ public class Player implements Runnable, ActionListener
 		{	
 			if(source==towers.get(i).getUpLevel())
 			{
-				towers.get(i).upLevel();
-				towers.get(i).set();
+				if(money>40*towers.get(i).getLevel())
+				{
+					pay(40*towers.get(i).getLevel());
+					towers.get(i).upLevel();
+					towers.get(i).set();
+				
+				}
 			}
 			for(int k=0; k<5; k++)
 			{
 				if(source==towers.get(i).getActiveType(k))
 				{
-					towers.get(i).setType(k+1);
-					towers.get(i).upLevel();
-					towers.get(i).set();
+					if(money>20*k)
+					{
+						pay(20*k);
+						towers.get(i).setType(k+1);
+						towers.get(i).upLevel();
+						towers.get(i).set();
 					//System.out.println(zones.get(i).getMod(k));
+					}
 				}
 			}
 		}
@@ -180,9 +214,22 @@ public class Player implements Runnable, ActionListener
 			else
 				for(int k=0; k<4; k++)
 				{
+					int nb=1;
+				
+					for(int j=0; j<4; j++)
+					{
+						if(zones.get(i).getMod(j))
+							nb++;
+					}
+					
 					if(source==zones.get(i).getGetMod(k))
 					{
+						
+						if(money>20*nb)
+						{
 						zones.get(i).setMod(k, true);
+						pay(20*nb);
+						}
 						//System.out.println(zones.get(i).getMod(k));
 					}
 				}
