@@ -75,7 +75,8 @@ public class IA implements Runnable{
 			if(activeZone != -1){
 				if(zones.get(activeZone).getNbAgents()>1)
 				{
-					agents.add(new Agent(2,2, zones.get(activeZone), zones.get(enemyZone), map));
+					if(zones.get(activeZone).getProprio()==id)
+					agents.add(new Agent(id,2, zones.get(activeZone), zones.get(enemyZone), map));
 				}
 			}
 				

@@ -143,8 +143,10 @@ class GameEngine extends JFrame implements Runnable
 					{
 						if(agents.get(i).getMod(2))
 							for(int k=0; k<4; k++)
-								agents.add(new Agent(agents.get(i).getProprio(),1,agents.get(i).getx(),agents.get(i).gety()+k,agents.get(i).getPath(),agents.get(i).getZoneStart(),agents.get(i).getZoneStop(),map));
+								agents.add(new Agent(agents.get(i).getProprio(),players.get(0),1,agents.get(i).getx(),agents.get(i).gety()+k,agents.get(i).getPath(),agents.get(i).getZoneStart(),agents.get(i).getZoneStop(),map));
 						agents.get(i).setMove(false);
+						if(agents.get(i).getProprio()==2)
+						players.get(0).win(10);
 						//agents.remove(agents.get(i));
 					}
 					if(!agents.get(i).getMove())

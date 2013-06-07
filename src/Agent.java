@@ -15,6 +15,7 @@ public class Agent extends RoundButton{
 	private int speed;
 	private Map map;
 	private LinkedList<Vector<Integer>> path;
+	private Player player;
 	
 	private double angle;
 	private double distance;
@@ -96,6 +97,7 @@ public class Agent extends RoundButton{
 	/******CONSTRUCTOR*******/
 	public Agent(int proprio, int life,Zone zone_start, Zone zone_stop, Map map)
 	{
+		this.player=null;
 		zone_start.setNbAgents(-1);
 		this.zone_start=zone_start;		
 		this.zone_stop=zone_stop;
@@ -126,10 +128,44 @@ public class Agent extends RoundButton{
 			life=10;
 		this.maxlife=life;
 	}
-	public Agent(int proprio,int life,float x,float y, LinkedList<Vector<Integer>> path, Zone zone_start, Zone zone_stop, Map map)
+	public Agent(int proprio,Player player, int life,Zone zone_start, Zone zone_stop, Map map)
+	{
+		this.player=player;
+		zone_start.setNbAgents(-1);
+		this.zone_start=zone_start;		
+		this.zone_stop=zone_stop;
+		this.x=zone_start.getx()+zone_start.getTaille()/2;
+		this.y=zone_start.gety()+zone_start.getTaille()/2;
+		this.proprio=proprio;
+		this.map = map;
+		this.move=true;
+		this.speed = 2;
+		this.life=life;
+		
+		loadlife=0;
+		this.mod=new boolean[4];
+		path = map.convertPosToCoord(map.getPathTableToZone(zone_start, zone_stop));
+		Vector<Integer> vect = path.pollFirst();
+		
+		for(int k=0; k<4; k++)
+		{
+			mod[k]=false;
+			if(zone_start.getMod(k))			
+				mod[k]=true;
+			
+		}
+			
+		if(mod[0])
+			speed=4;
+		if(mod[1])
+			life=10;
+		this.maxlife=life;
+	}
+	public Agent(int proprio,Player player,int life,float x,float y, LinkedList<Vector<Integer>> path, Zone zone_start, Zone zone_stop, Map map)
 	{
 		//zone_start.setNbAgents(-1);
 		this.path=path;		
+		this.player=player;
 		this.zone_stop=zone_stop;
 		this.zone_start=zone_start;
 		this.x=x;
@@ -250,7 +286,11 @@ public class Agent extends RoundButton{
 				{
 					zone_stop.setNbAgents(1);
 					if(zone_stop.getNbAgents()>0)
+					{
 						zone_stop.setProprio(this.proprio);
+						if(player!=null)
+						player.win(50);
+					}
 				}
 				else if(zone_stop.getProprio()!=this.getProprio())
 				{
