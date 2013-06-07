@@ -177,7 +177,7 @@ public class Tower extends RoundedCornerButton
 			{
 				if(type==4)
 					hit++;
-				bullets.add(new Bullet(this,cible,type,hit));
+				bullets.add(new Bullet(this,cible,type,hit,agents));
 				cadence=0;
 			}
 			else

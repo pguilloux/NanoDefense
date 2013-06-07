@@ -44,7 +44,7 @@ public class IA implements Runnable{
 		while(isAlive){
 			System.out.println("IA");
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,10 +73,19 @@ public class IA implements Runnable{
 			}
 			
 			if(activeZone != -1){
-				if(zones.get(activeZone).getNbAgents()>1)
+				if(zones.get(activeZone).getNbAgents()>3)
 				{
 					if(zones.get(activeZone).getProprio()==id)
-					agents.add(new Agent(id,2, zones.get(activeZone), zones.get(enemyZone), map));
+						for(int k=0; k<3;k++)
+						{
+							agents.add(new Agent(id,2, zones.get(activeZone), zones.get(enemyZone), map));
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 				}
 			}
 				

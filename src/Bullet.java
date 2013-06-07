@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Vector;
 public class Bullet extends RoundButton{
@@ -14,6 +15,7 @@ public class Bullet extends RoundButton{
 	private float speed;
 	private int type;
 	private int hit;
+	private ArrayList<Agent> agents;
 
 	
 	/*****GET&SET******/
@@ -36,7 +38,7 @@ public class Bullet extends RoundButton{
 	}
 	
 	/******CONSTRUCTOR*******/
-	public Bullet(Tower tower_start, Agent agent_stop, int type, int hit)
+	public Bullet(Tower tower_start, Agent agent_stop, int type, int hit, ArrayList<Agent> agents)
 	{
 		this.tower_start=tower_start;		
 		this.agent_stop=agent_stop;
@@ -46,7 +48,7 @@ public class Bullet extends RoundButton{
 		this.move=true;
 		this.speed = 20;
 		this.hit=hit;
-
+		this.agents=agents;
 	}
 	
 	
@@ -80,6 +82,20 @@ public class Bullet extends RoundButton{
 						break;
 						case 4:
 							agent_stop.looseLife(hit);
+						case 5:
+							for(int j=0; j<agents.size();j++)
+							{
+								float distx=agent_stop.getx()-agents.get(j).getx();
+								float disty=agent_stop.gety()-agents.get(j).gety();
+								float adistx=(distx>0)?distx:-distx;
+								float adisty=(disty>0)?disty:-disty;
+								if(adistx<=20*hit && adisty<=20*hit)
+								{
+									agents.get(j).looseLife(hit);
+								}
+							}
+						break;
+								
 							
 					}
 					//agent_stop.looseLife(1);
