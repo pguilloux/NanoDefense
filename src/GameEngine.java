@@ -26,7 +26,7 @@ class GameEngine extends JFrame implements Runnable
 		agents=new ArrayList<Agent>();
 		towers=new ArrayList<Tower>();
 		bullets=new ArrayList<Bullet>();
-		this.setTitle("Animation");
+		this.setTitle("Nano Defense");
 		this.setSize(800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);

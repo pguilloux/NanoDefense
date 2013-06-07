@@ -78,7 +78,7 @@ public class IA implements Runnable{
 					if(zones.get(activeZone).getProprio()==id)
 						for(int k=0; k<3;k++)
 						{
-							agents.add(new Agent(id,2, zones.get(activeZone), zones.get(enemyZone), map));
+							agents.add(new Agent(id,5, zones.get(activeZone), zones.get(enemyZone), map));
 							try {
 								Thread.sleep(500);
 							} catch (InterruptedException e) {

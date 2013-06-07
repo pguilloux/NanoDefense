@@ -203,11 +203,11 @@ public class Agent extends RoundButton{
     	switch(this.getProprio())
     	{    		
     		case 1:
-    			this.setBackground(new Color(20*life, 0, 0));
+    			this.setBackground(new Color(255*life/maxlife, 0, 0));
     		break;
     	
     		case 2:
-    			this.setBackground(new Color(0, 0, 20*life));
+    			this.setBackground(new Color(0, 0, 255*life/maxlife));
     		break;
     		
     		default:
