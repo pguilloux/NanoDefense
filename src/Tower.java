@@ -155,6 +155,7 @@ public class Tower extends RoundedCornerButton
 		taille=(level+1)*(15);
 		influence=50*level;
 		pas=30/level;
+		hit=level;
 		this.setBounds((int)this.getx(),(int)this.gety(), this.taille, this.taille);
 		if(level<5)
 		up_level.setBounds((int)this.getx()+taille/2-10,(int)this.gety()-20, 20, 20);

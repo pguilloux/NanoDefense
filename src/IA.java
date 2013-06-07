@@ -1,18 +1,31 @@
 import java.util.ArrayList;
 
 
-public class IA extends Player implements Runnable{
+public class IA implements Runnable{
 	
-	
+	protected int money;
+	protected ArrayList<Zone> zones;
+	protected ArrayList<Tower> towers;
+	protected ArrayList<Agent> agents;
+	protected Map map;
+
+	protected int id;
+	protected boolean isAlive = true;
 	private int activeZone;
 	private int enemyZone;
 	
 	public IA(int id, int MONEY, ArrayList<Zone> ZONELIST, ArrayList<Tower> TOWERLIST, ArrayList<Agent> AGENTLIST, Map MAP) {
-		super(id, MONEY, ZONELIST, TOWERLIST, AGENTLIST, MAP);
+		this.id=id;
+		this.money = MONEY;
+		this.zones = ZONELIST;
+		this.towers = TOWERLIST;
+		this.agents = AGENTLIST;
+		this.map=MAP;
+
 		
 		for(int i=0; i<zones.size(); i++)
 		{
-			if(zones.get(i).getProprio() == 2)
+			if(zones.get(i).getProprio() == id)
 				activeZone = i;
 			else
 				enemyZone = i;
@@ -44,11 +57,11 @@ public class IA extends Player implements Runnable{
 				boolean noMoreZone = true;
 				for(int i=0; i<zones.size(); i++)
 				{
-					if(zones.get(i).getProprio() == 2 && ancientActiveZone != i){
+					if(zones.get(i).getProprio() == id && ancientActiveZone != i){
 						activeZone = i;
 						noMoreZone = false;
 					}
-					if(zones.get(i).getProprio() != 2 && ancientEnemyZone != i){
+					if(zones.get(i).getProprio() != id && ancientEnemyZone != i){
 						enemyZone = i;
 					}
 				}

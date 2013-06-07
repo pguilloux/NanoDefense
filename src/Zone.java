@@ -219,6 +219,7 @@ public class Zone extends RoundButton{
 	
 	public void set()
 	{
+		
 		if(getNbAgents()>0 && getNbAgents()<nb_max_agents)
 		{
 			setProgress(getTaille()/50);

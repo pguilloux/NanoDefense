@@ -169,10 +169,12 @@ class GameEngine extends JFrame implements Runnable
 						pan.add(bullets.get(i));
 					}
 				}
+	    	
 	    	setTowerProprio();
 	    	setTowerActive();
 	    	setZoneIHM();
 	    	setTowerIHM();
+	    	
 	    	for(int k=0; k<zones.size(); k++)
 				zones.get(k).set(); 
 	    	if(!towers.isEmpty())
@@ -182,8 +184,11 @@ class GameEngine extends JFrame implements Runnable
 				towers.get(k).shoot(); 
 	    	}
 	    	if(!players.isEmpty())
-	    	for(int k=0; k<players.size(); k++)				
+	    	for(int k=0; k<players.size(); k++)	
+	    	{
 	    		players.get(k).printMoney();
+	    		players.get(k).kill();
+	    	}
 	    	repaint();
 	    	
 	      try {

@@ -95,21 +95,18 @@ public class Player implements Runnable, ActionListener
 		money_print.setText(String.valueOf(money));
 		money_print.setBounds(0,0, 100, 20);			
 	}
-	
-	public void run()
+	public void run(){}
+	public void kill()
 	{
-		while(isAlive){
-			boolean noMoreZone = true;
+		
 			for(int i=0; i<zones.size(); i++)
 			{
-				if(zones.get(i).getProprio() == id){
-					noMoreZone = false;
-				}
-				else{
+				if(zones.get(i).getProprio() != id && zones.get(i).getActive() ){
+	
 					zones.get(i).setActive(false);
 				}
 			}
-		}
+		
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -140,7 +137,11 @@ public class Player implements Runnable, ActionListener
 				if(zones.get(i).getActive())
 				{
 					zones.get(i).setActive(false);
+					System.out.println("1"+zones.get(0).getActive());
+					break;
+					
 					//zones.get(i).setBackground(Color.WHITE);
+					
 				}
 				else 
 				{	
@@ -186,7 +187,9 @@ public class Player implements Runnable, ActionListener
 					}
 				}
 		}
-	}	
+		System.out.println("2"+zones.get(0).getActive());
+	}
+	
 	
 }
 

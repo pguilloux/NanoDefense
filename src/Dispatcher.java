@@ -10,6 +10,7 @@ class Dispatcher
 {
 	/*****VARIABLES******/
 	ArrayList<Player> players;//contenant également les IA
+	ArrayList<IA> IAs;
 	ArrayList<Zone> zones;//toutes les zones de la map
 	ArrayList<Tower> towers;
 	ArrayList<Agent> agents;
@@ -33,9 +34,10 @@ class Dispatcher
     	
     	pan=new DrawPanel(zones,agents,towers,map);
     	players=new ArrayList<Player>();
+    	IAs=new ArrayList<IA>();
 
     	players.add(new Player(1, 100,zones,towers,agents,map));
-    	players.add(new IA(2, 100,zones,towers,agents,map));
+    	IAs.add(new IA(2, 100,zones,towers,agents,map));
 
 
     	this.pan=buildContentPane();
@@ -46,14 +48,19 @@ class Dispatcher
 		{
 			threads.add(new Thread(players.get(i)));
 		}
+		for(int i=0; i<IAs.size();i++)
+		{
+			threads.add(new Thread(IAs.get(i)));
+		}
     	
 		t.start(); 
 		
 		
-		for(int i=0; i<players.size();i++)
+		for(int i=0; i<players.size()+IAs.size();i++)
 		{
 			threads.get(i).start();
 		}
+	
 			
     	
     }
